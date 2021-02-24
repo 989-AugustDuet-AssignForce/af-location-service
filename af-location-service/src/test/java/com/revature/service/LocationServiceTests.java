@@ -77,7 +77,7 @@ public class LocationServiceTests {
 		Location loc = new Location();
 		assertNotNull(loc);
 		assertNotNull(loc.getBuildings());
-		assertionEquals(loc.getBuildings(), Building.class,"what is received from the list of buildings is not a building object list");
+		assertionEquals(loc.getBuildings().getClass(), Building.class,"what is received from the list of buildings is not a building object list");
 	}
 
 
