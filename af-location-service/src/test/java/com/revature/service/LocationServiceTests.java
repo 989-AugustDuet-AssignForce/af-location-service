@@ -167,7 +167,6 @@ public class LocationServiceTests {
 	@Test
 	public void createBadLocation() {
 		
-		Mockito.when(locationRepository.findById(badSampleLocation.getId())).thenReturn(Optional.empty());
 		Mockito.when(locationRepository.save(badSampleLocation)).thenAnswer(new Answer<Location>() {
 			@Override
 			public Location answer(InvocationOnMock invocation) throws Throwable {
@@ -186,9 +185,8 @@ public class LocationServiceTests {
 	
 	@Test
 	public void createGoodLocation() {
-		LocationDto goodSampleLocationDto = new LocationDto();
-		// TODO instantiation 
-		Mockito.when(locationRepository.findById( goodSampleLocationDto.id)).thenReturn(Optional.of(goodSampleLocation));
+		LocationDto goodSampleLocationDto = getLocationDtoFromEntity( goodSampleLocation ); 
+		Mockito.when(locationRepository.findById( goodSampleLocationDto.id ) ).thenReturn(Optional.of( goodSampleLocation ) );
 		locationService.createLocation( goodSampleLocation );
 		LocationDto result = locationService.getLocation( goodSampleLocationDto.id );
 		assertTrue( "locationDto's not equal", locationDtoEquals(goodSampleLocationDto, result) );
@@ -250,23 +248,35 @@ public class LocationServiceTests {
 	
 	@Test 
 	public void updateLocationGood(){
-		Location goodSampleCopy = cloneLocation( goodSampleLocation );
-		goodSampleCopy.setCity( "Jones Town" );
-		LocationDto goodSampleCopyDto = new LocationDto();
+		final Location goodSampleCopy = cloneLocation( goodSampleLocation );
+		Location modifiedSampleCopy = cloneLocation( goodSampleCopy);
+		modifiedSampleCopy.setCity("wuzz");
+		//TODO check validation
+		LocationDto goodSampleCopyDto = getLocationDtoFromEntity( goodSampleCopy );
 		// TODO instantiate dto
-		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
-		locationService.updateLocation(goodSampleCopy.getId(), goodSampleCopy);
+		Mockito.when( locationRepository.save( modifiedSampleCopy )).thenAnswer(new Answer() {
+			@Override
+			public Location answer(InvocationOnMock invocation)  {
+				Location location = invocation.getArgument(0, Location.class);
+				if(location.getId() == goodSampleCopy.getId()) {
+					goodSampleCopy.setBuildings(location.getBuildings());
+					goodSampleCopy.setCity(location.getCity());
+					goodSampleCopy.setState(location.getState());
+					goodSampleCopy.setZipCode(location.getZipCode());
+				}
+				return goodSampleCopy;
+			}
+		});
+		locationService.updateLocation(goodSampleCopy.getId(), modifiedSampleCopy);
 		Mockito.when( locationRepository.findById( goodSampleCopy.getId()) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
 		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
-		assertTrue( "Location not persisted", locationDtoEquals( result, goodSampleCopyDto ) );
+		assertTrue( "Location not persisted", locationDtoEquals( result, getLocationDtoFromEntity(modifiedSampleCopy) ) );
 	}
 	@Test 
 	public void updateLocationBad() {
 		Location badSampleCopy = cloneLocation( goodSampleLocation );
 		// TODO update for validation rules
 		badSampleCopy.setCity( "badValue" );
-		
-		
 		Mockito.when(locationRepository.save(badSampleCopy)).thenAnswer(new Answer<Location>() {
 			@Override
 			public Location answer(InvocationOnMock invocation) throws Throwable {
@@ -278,21 +288,155 @@ public class LocationServiceTests {
 			}
 		});
 		Exception exception = assertThrows(Exception.class, () ->{
-			locationService.createLocation(badSampleCopy);
+			locationService.updateLocation(badSampleCopy.getId(), badSampleCopy);
 		});
 		assertTrue("didn't throw exception", "bad entity".contains(exception.getMessage()));
 	}
-	
 	@Test
 	public void updateStateGood() {
-		Location goodCopyLocation = cloneLocation( goodSampleLocation );
-		// TODO update with validation rules
-		goodCopyLocation.setState( "FFFF" );
-		Mockito.when( locationRepository.findById( goodCopyLocation.getId() ) ).thenReturn(Optional.of( goodSampleLocation ) );
-		Mockito.when( locationRepository.save( goodCopyLocation ) ).an
+		Location goodSampleCopy = cloneLocation( goodSampleLocation );	
+		//TODO check validation
+		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+		Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		locationService.updateState( goodSampleCopy.getId(), "wuzz" );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		assertTrue( "state not persisted", "wuzz".equals( result.state ) );
+	}
+	@Test
+	public void updateStateBad() {
+		{
+			Location goodSampleCopy = cloneLocation( goodSampleLocation );	
+			//TODO check validation
+			Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+			Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+			locationService.updateState( goodSampleCopy.getId(), "wuzz" );
+			LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+			assertFalse( "bad state changed", "wuzz".equals( result.state ) );
+		}
+		
+	}
+	@Test
+	public void updateCityGood() {
+		Location goodSampleCopy = cloneLocation( goodSampleLocation );	
+		//TODO check validation
+		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+		Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		locationService.updateCity( goodSampleCopy.getId(), "wuzz" );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		assertTrue( "city not persisted", "wuzz".equals( result.city ) );
+	}
+	@Test
+	public void updateCityBad() {
+		Location goodSampleCopy = cloneLocation( goodSampleLocation );	
+		//TODO check validation
+		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+		Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		locationService.updateCity( goodSampleCopy.getId(), "wuzz" );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		assertFalse( "city should not persist", "wuzz".equals( result.city ) );
+	}
+	@Test
+	public void updateZipCodeGood() {
+		Location goodSampleCopy = cloneLocation( goodSampleLocation );	
+		//TODO check validation
+		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+		Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		locationService.updateZipCode(goodSampleCopy.getId(), "wuzz" );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		assertTrue( "zip code not persisted", "wuzz".equals( result.zipCode ) );
+	}
+	@Test
+	public void updateZipCodeBad() {
+		Location goodSampleCopy = cloneLocation( goodSampleLocation );	
+		//TODO check validation
+		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+		Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		locationService.updateZipCode(goodSampleCopy.getId(), "wuzz" );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		assertFalse( "zip code should not persist", "wuzz".equals( result.zipCode ) );
+	}
+	@Test
+	public void addBuildingGood() {
+		Location goodSampleCopy = cloneLocation( goodSampleLocation );
+		Building newBuilding = new Building();
+		newBuilding.setCity("Riverdale");
+		newBuilding.setId(123456);
+		newBuilding.setLocation(goodSampleCopy);
+		newBuilding.setRooms(goodSampleCopy.getBuildings().get(0).getRooms());
+		newBuilding.setStreetAddress("WEEEEEEEE");
+		//TODO check validation
+		
+		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+		Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		locationService.addBuilding(goodSampleCopy.getId(), newBuilding );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		boolean flag = false;
+		Iterator<BuildingDto> iterator = result.buildings.iterator();
+		BuildingDto newBuildingDto = getBuildingDtoFromEntity(newBuilding);
+		while(iterator.hasNext()) {
+			if(BuildingDtoEquals(iterator.next(), newBuildingDto)) {
+				flag = true;
+				break;
+			}
+		}
+		assertTrue("building not added", flag);
 	}
 	
-	
+	@Test
+	public void addBuildingBad() {
+		Location goodSampleCopy = cloneLocation( goodSampleLocation );
+		Building newBuilding = new Building();
+		newBuilding.setCity("Riverdale");
+		newBuilding.setId(123456);
+		newBuilding.setLocation(goodSampleCopy);
+		newBuilding.setRooms(goodSampleCopy.getBuildings().get(0).getRooms());
+		newBuilding.setStreetAddress("WEEEEEEEE");
+		//TODO check validation
+		
+		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+		Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		locationService.addBuilding(goodSampleCopy.getId(), newBuilding );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		boolean flag = false;
+		Iterator<BuildingDto> iterator = result.buildings.iterator();
+		BuildingDto newBuildingDto = getBuildingDtoFromEntity(newBuilding);
+		while(iterator.hasNext()) {
+			if(BuildingDtoEquals(iterator.next(), newBuildingDto)) {
+				flag = true;
+				break;
+			}
+		}
+		assertFalse("building added", flag);
+	}
+	@Test
+	public void deleteLocation() {
+		Location goodCopy = cloneLocation(goodSampleLocation);
+		final boolean[] flag = {false};
+		
+		Mockito.doAnswer(new Answer<Object>() {
+			@Override
+			public Object answer(InvocationOnMock invocation) throws Throwable {
+				flag[0] = true;
+				return null;
+			}
+			
+		}).when(locationRepository).delete(goodCopy);;
+
+		Mockito.when(locationRepository.findById(goodCopy.getId())).thenAnswer(new Answer<Location>() {
+			@Override
+			public Location answer(InvocationOnMock invocation) throws Throwable {
+				Location location = invocation.getArgument(0, Location.class);
+				if(location.getId() == goodCopy.getId() && flag[0]) {
+					throw new Exception("entity not found");
+				}
+				return null;
+			}
+		});
+		Exception exception = assertThrows(Exception.class, () ->{
+			locationService.deleteLocation(goodCopy.getId());;
+		});
+		assertTrue("didn't throw exception", "entity not found".contains(exception.getMessage()));
+	}
 	
 	
 	//utility functions
@@ -302,6 +446,7 @@ public class LocationServiceTests {
 		result.setCity( location.getCity() );
 		result.setId( location.getId() );
 		result.setState( location.getState() );
+		result.setZipCode(location.getZipCode());
 		List<Building> list = new ArrayList<Building>();
 		Iterator<Building> iterator = location.getBuildings().iterator();
 		while( iterator.hasNext() ) {
@@ -387,5 +532,50 @@ public class LocationServiceTests {
 			}
 		}
 		return true;
+	}
+	
+	private LocationDto getLocationDtoFromEntity(Location location) {
+		LocationDto locationDto = new LocationDto();
+		locationDto.city = location.getCity();
+		locationDto.id = location.getId();
+		locationDto.state = location.getState();
+		locationDto.zipCode = location.getZipCode();
+		locationDto.buildings = this.getBuidlingDtoListFromEntityList(location.getBuildings());
+		return locationDto;
+	}
+	private BuildingDto getBuildingDtoFromEntity(Building building) {
+		BuildingDto resultBuilding = new BuildingDto();
+		resultBuilding.city = building.getCity();
+		resultBuilding.id = building.getId();
+		resultBuilding.streetAddress = building.getStreetAddress();
+		resultBuilding.rooms = getRoomsDtoListFromEntityList(building.getRooms());
+		return resultBuilding;
+	}
+	private List<BuildingDto>   getBuidlingDtoListFromEntityList(List<Building> buildings){
+		List<BuildingDto> result = new ArrayList<BuildingDto>();
+		Iterator<Building> iterator = buildings.iterator();
+		while(iterator.hasNext()) {
+			BuildingDto resultBuilding = new BuildingDto();
+			Building building = iterator.next();
+			resultBuilding = getBuildingDtoFromEntity(building);
+			result.add(resultBuilding);
+		}
+		return result;
+	}
+	private List<RoomDto> getRoomsDtoListFromEntityList(List<Room> rooms){
+		List<RoomDto> result = new ArrayList<RoomDto>();
+		Iterator<Room> iterator = rooms.iterator();
+		while(iterator.hasNext()) {
+			RoomDto resultRoom = new RoomDto();
+			Room room = iterator.next();
+			resultRoom.capacity = room.getCapacity();
+			resultRoom.id = room.getId();
+			resultRoom.name = room.getName();
+			// TODO implement conversion of occupation and type string to and from enum
+//			resultRoom.occupation = room.getOccupation();
+//			resultRoom.type = room.getType()
+			result.add(resultRoom);
+		}
+		return result;
 	}
 }

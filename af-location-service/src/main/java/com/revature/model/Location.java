@@ -8,6 +8,19 @@ public class Location {
     private String state;
     private String city;
     private List<Building> buildings;
+    private String zipCode;
+	/**
+	 * @return the zipCode
+	 */
+	public String getZipCode() {
+		return zipCode;
+	}
+	/**
+	 * @param zipCode the zipCode to set
+	 */
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
 	/**
 	 * @return the id
 	 */
