@@ -15,7 +15,7 @@ public class LocationService {
 	@Autowired
 	LocationRepository locationRepository;
 	@Autowired
-	BuildingRepository BuildingRepository;
+	BuildingRepository buildingRepository;
 	
 	public void createLocation(Location location) {
 		
