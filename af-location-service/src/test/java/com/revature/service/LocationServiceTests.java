@@ -48,6 +48,7 @@ public class LocationServiceTests {
 		badSampleLocation.setId(2);
 		goodSampleLocation.setState("FL");
 		badSampleLocation.setState("CA");
+		// TODO get validation rules to make a bad location
 		//instantiate building list
 		List<Building> goodBuildings = new ArrayList();
 		List<Building> badBuildings = new ArrayList();
@@ -164,9 +165,8 @@ public class LocationServiceTests {
 	
 	@Test
 	public void createBadLocation() {
-		LocationDto badSampleLocationDto = new LocationDto();
-		// TODO instantiation
-		Mockito.when(locationRepository.findById(badSampleLocationDto.id)).thenReturn(Optional.empty());
+		
+		Mockito.when(locationRepository.findById(badSampleLocation.getId())).thenReturn(Optional.empty());
 		Mockito.when(locationRepository.save(badSampleLocation)).thenAnswer(new Answer<Location>() {
 			@Override
 			public Location answer(InvocationOnMock invocation) throws Throwable {
@@ -178,9 +178,9 @@ public class LocationServiceTests {
 			}
 		});
 		Exception exception = assertThrows(Exception.class, () ->{
-			locationService.createLocation(badSampleLocationDto);
+			locationService.createLocation(badSampleLocation);
 		});
-		assertTrue("bad entity".contains(exception.getMessage()));
+		assertTrue("didn't throw exception", "bad entity".contains(exception.getMessage()));
 	}
 	
 	@Test
@@ -188,34 +188,9 @@ public class LocationServiceTests {
 		LocationDto goodSampleLocationDto = new LocationDto();
 		// TODO instantiation 
 		Mockito.when(locationRepository.findById( goodSampleLocationDto.id)).thenReturn(Optional.of(goodSampleLocation));
-		locationService.createLocation( goodSampleLocationDto );
+		locationService.createLocation( goodSampleLocation );
 		LocationDto result = locationService.getLocation( goodSampleLocationDto.id );
-		assertFalse( "Didn't find location in repository", result == null );
-		assertEquals( result.city, goodSampleLocationDto.city, "city didn't match" );
-		assertEquals( result.state,goodSampleLocationDto.state, "state didn't match" );
-		assertEquals( result.zipCode,goodSampleLocationDto.zipCode,"zip code didn't match" );
-		assertTrue( "Building Lists not the same size", result.buildings.size() == goodSampleLocationDto.buildings.size() );
-		Iterator<BuildingDto> iteratorSample = goodSampleLocationDto.buildings.iterator();
-		Iterator<BuildingDto> iteratorResult = result.buildings.iterator();
-		while( iteratorSample.hasNext () ) {
-			BuildingDto buildingSample = iteratorSample.next();
-			BuildingDto buildingResult = iteratorResult.next();
-			assertEquals( buildingSample.city,buildingResult.city, "city doesn't match" );
-			assertTrue( "id doesn't match", buildingSample.id == buildingResult.id);
-			assertEquals( buildingSample.streetAddress,buildingResult.streetAddress, "address doesn't match" );
-			assertTrue( "Room list not the same size", buildingSample.rooms.size() == buildingResult.rooms.size() );
-			Iterator<RoomDto> iteratorSampleRoom = buildingSample.rooms.iterator();
-			Iterator<RoomDto> iteratorResultRoom = buildingResult.rooms.iterator();
-			while( iteratorSampleRoom.hasNext() ) {
-				RoomDto sampleRoom = iteratorSampleRoom.next();
-				RoomDto resultRoom = iteratorResultRoom.next();
-				assertTrue( "capacity doesn't match", sampleRoom.capacity == resultRoom.capacity );
-				assertEquals(sampleRoom.name, resultRoom.name, "name doesn't match for room");
-				assertTrue("id doesn't match", sampleRoom.id == resultRoom.id);
-				assertEquals(sampleRoom.type, resultRoom.type, "type doesn't match for room");
-				assertEquals(sampleRoom.occupation, resultRoom.occupation, "occupation doesn't match for room");
-			}
-		}
+		assertTrue( "locationDto's not equal", locationDtoEquals(goodSampleLocationDto, result) );
 	}
 	
 	@Test
@@ -299,5 +274,145 @@ public class LocationServiceTests {
 
 		assertTrue(result);
 	}
-
+	
+	@Test 
+	public void updateLocationGood(){
+		Location goodSampleCopy = cloneLocation( goodSampleLocation );
+		goodSampleCopy.setCity( "Jones Town" );
+		LocationDto goodSampleCopyDto = new LocationDto();
+		// TODO instantiate dto
+		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
+		locationService.updateLocation(goodSampleCopy.getId(), goodSampleCopy);
+		Mockito.when( locationRepository.findById( goodSampleCopy.getId()) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		assertTrue( "Location not persisted", locationDtoEquals( result, goodSampleCopyDto ) );
+	}
+	@Test 
+	public void updateLocationBad() {
+		Location badSampleCopy = cloneLocation( goodSampleLocation );
+		// TODO update for validation rules
+		badSampleCopy.setCity( "badValue" );
+		
+		
+		Mockito.when(locationRepository.save(badSampleCopy)).thenAnswer(new Answer<Location>() {
+			@Override
+			public Location answer(InvocationOnMock invocation) throws Throwable {
+				Location location = invocation.getArgument(0, Location.class);
+				if(location.getId() == badSampleLocation.getId()) {
+					throw new Exception("bad entity");
+				}
+				return null;
+			}
+		});
+		Exception exception = assertThrows(Exception.class, () ->{
+			locationService.createLocation(badSampleCopy);
+		});
+		assertTrue("didn't throw exception", "bad entity".contains(exception.getMessage()));
+	}
+	
+	@Test
+	public void updateStateGood() {
+		Location goodCopyLocation = cloneLocation( goodSampleLocation );
+		// TODO update with validation rules
+		goodCopyLocation.setState( "FFFF" );
+		Mockito.when( locationRepository.findById( goodCopyLocation.getId() ) ).thenReturn(Optional.of( goodSampleLocation ) );
+		Mockito.when( locationRepository.save( goodCopyLocation ) ).an
+	}
+	
+	
+	
+	
+	//utility functions
+	
+	private Location cloneLocation( Location location ) {
+		Location result = new Location();
+		result.setCity( location.getCity() );
+		result.setId( location.getId() );
+		result.setState( location.getState() );
+		List<Building> list = new ArrayList<Building>();
+		Iterator<Building> iterator = location.getBuildings().iterator();
+		while( iterator.hasNext() ) {
+			list.add( iterator.next() );
+		}
+		result.setBuildings( list );
+		return result;
+	}
+	
+	private boolean locationDtoEquals( LocationDto locationA, LocationDto locationB ) {
+		if( locationA == locationB ) {
+			return true;
+		}
+		if( locationA.id != locationB.id ) {
+			return false;
+		}
+		if( !locationA.city.equals( locationB.city ) ) {
+			return false;
+		}
+		if( !locationA.state.equals( locationB.state ) ) {
+			return false;
+		}
+		if( !locationA.zipCode.equals( locationB.zipCode ) ) {
+			return false;
+		}
+		if( locationA.buildings.size() != locationB.buildings.size() ) {
+			return false;
+		}
+		Iterator<BuildingDto> iteratorA = locationA.buildings.iterator();
+		Iterator<BuildingDto> iteratorB = locationB.buildings.iterator();
+		while( iteratorA.hasNext() ) {
+			if( !BuildingDtoEquals( iteratorA.next(), iteratorB.next() ) ) {
+				return false;
+			}
+		}
+		return true;
+		
+	}
+	private boolean roomDtoEquals( RoomDto roomA, RoomDto roomB) {
+		if(roomA == roomB) {
+			return true;
+		}
+		if( roomA.id != roomB.id ) {
+			return false;
+		}
+		if( roomA.capacity != roomB.capacity ) {
+			return false;
+		}
+		if( !roomA.name.equals( roomB.name ) ) {
+			return false;
+		}
+		if( !roomA.occupation.equals( roomB.occupation ) ) {
+			return false;
+		}
+		if( !roomA.type.equals( roomB.type ) ) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private boolean BuildingDtoEquals( BuildingDto buildingA, BuildingDto buildingB ) {
+		if(buildingA == buildingB) {
+			return true;
+		}
+		if( !buildingA.city.equals( buildingB.city ) ) {
+			return false;
+		}
+		if( !buildingA.streetAddress.equals( buildingB.streetAddress ) ) {
+			return false;
+		}
+		if( buildingA.id != buildingB.id ) {
+			return false;
+		}
+		if( buildingA.rooms.size() != buildingB.rooms.size() ) {
+			return false;
+		}
+		Iterator<RoomDto> iteratorRoomsA = buildingA.rooms.iterator();
+		Iterator<RoomDto> iteratorRoomsB = buildingB.rooms.iterator();
+		while(iteratorRoomsA.hasNext()) {
+			if( !roomDtoEquals( iteratorRoomsA.next(),iteratorRoomsB.next() ) ) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
