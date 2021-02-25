@@ -274,7 +274,28 @@ public class LocationServiceTests {
 
 		assertTrue(result);
 	}
-	
+
+	@Test
+	public void checkWeCanGetLocationById() {
+		boolean result = true;
+		int[] idInputs = {1,2,3};
+
+		for( int i : idInputs ) {
+			LocationDto l = locationService.getLocation(i);
+			if( l.buildings.isEmpty() ) {
+				result = false;
+			} else if( l.zipCode.isEmpty() ) {
+				result = false;
+			} else if ( l.city.isEmpty() ) {
+				result = false;
+			} else if ( l.state.isEmpty() ) {
+				result = false;
+			}
+		}
+
+		assertTrue(result);
+	}
+
 	@Test 
 	public void updateLocationGood(){
 		Location goodSampleCopy = cloneLocation( goodSampleLocation );
