@@ -27,7 +27,6 @@ import com.revature.repository.LocationRepository;
 import com.revature.statics.RoomOccupation;
 import com.revature.statics.RoomType;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class LocationServiceTests {
 
@@ -231,45 +230,73 @@ public class LocationServiceTests {
 	public void checkWeCanGetAllLocations() {
 		List<LocationDto> locations = locationService.getAllLocations();
 		assertNotNull(locations);
-		assertTrue(locations.size() == 5);
+		assertTrue(locations.size() == 3);
 	}
 
 	@Test
 	public void checkWeCanGetLocationsByState() {
-		boolean result = true;
-		String state = "Virginia";
-		List<LocationDto> locations = locationService.getLocationsByState(state);
-		for(LocationDto ld : locations) {
-			if(!ld.state.equals(state)) {
-				result = false;
+		boolean result = false;
+		String[] stateInputs = {
+				"VA", "TX", "FL", "VIRGINIA", "TEXAS", "FLORIDA",
+				"Va", "Tx", "Fl", "Virginia", "Texas", "Florida",
+				"va", "tx", "fl", "virginia", "texas", "florida",
+		};
+
+		for( String s : stateInputs ) {
+			List<LocationDto> l = locationService.getLocationsByState(s);
+			if( l.get(0).state.equals(s) ) {
+				result = true;
+			} else if( l.get(1).state.equals(s) ) {
+				result = true;
+			} else if ( l.get(2).state.equals(s) ) {
+				result = true;
 			}
 		}
+
 		assertTrue(result);
 	}
 
 	@Test
 	public void checkWeCanGetLocationsByCity() {
-		boolean result = true;
-		String city = "Reston";
-		List<LocationDto> locations = locationService.getLocationsByCity(city);
-		for(LocationDto ld : locations) {
-			if(!ld.city.equals(city)) {
-				result = false;
+		boolean result = false;
+		String[] cityInputs = {
+				"Reston", "RESTON", "reston",
+				"Arlington", "ARLINGTON", "arlington",
+				"Tampa", "TAMPA", "tampa"
+		};
+
+		for( String c : cityInputs ) {
+			List<LocationDto> l = locationService.getLocationsByCity(c);
+			if( l.get(0).city.equals(c) ) {
+				result = true;
+			} else if( l.get(1).city.equals(c) ) {
+				result = true;
+			} else if ( l.get(2).city.equals(c) ) {
+				result = true;
 			}
 		}
+
 		assertTrue(result);
 	}
 
 	@Test
 	public void checkWeCanGetLocationsByZipcode() {
-		boolean result = true;
-		String zipcode = "20190";
-		List<LocationDto> locations = locationService.getLocationsByZipCode(zipcode);
-		for(LocationDto ld : locations) {
-			if(!ld.zipCode.equals(zipcode)) {
-				result = false;
+		boolean result = false;
+		String[] zipCodeInputs = {
+				"20190", "33620", "76019"
+		};
+
+		for( String z : zipCodeInputs ) {
+			List<LocationDto> l = locationService.getLocationsByZipCode(z);
+			if( l.get(0).zipCode.equals(z) ) {
+				result = true;
+			} else if( l.get(1).zipCode.equals(z) ) {
+				result = true;
+			} else if ( l.get(2).zipCode.equals(z) ) {
+				result = true;
 			}
 		}
+
 		assertTrue(result);
 	}
 
