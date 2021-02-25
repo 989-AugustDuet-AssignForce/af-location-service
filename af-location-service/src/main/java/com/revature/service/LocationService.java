@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.revature.dto.BuildingDto;
 import com.revature.dto.LocationDto;
+import com.revature.model.Location;
 import com.revature.repository.BuildingRepository;
 import com.revature.repository.LocationRepository;
 
@@ -16,7 +17,7 @@ public class LocationService {
 	@Autowired
 	BuildingRepository BuildingRepository;
 	
-	public void createLocation(LocationDto dto) {
+	public void createLocation(Location location) {
 		
 	}
 	
@@ -60,7 +61,7 @@ public class LocationService {
 		
 	}
 	
-	public void updateLocation(int index, LocationDto locationDto) {
+	public void updateLocation(int index, Location location) {
 		
 	}
 }
