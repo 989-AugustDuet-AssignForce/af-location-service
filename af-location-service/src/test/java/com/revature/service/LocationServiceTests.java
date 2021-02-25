@@ -50,8 +50,8 @@ public class LocationServiceTests {
 		goodSampleLocation.setState("FL");
 		badSampleLocation.setState("CA");
 		//instantiate building list
-		List<Building> goodBuildings = new ArrayList();
-		List<Building> badBuildings = new ArrayList();
+		List<Building> goodBuildings = new ArrayList<Building>();
+		List<Building> badBuildings = new ArrayList<Building>();
 		goodSampleLocation.setBuildings(goodBuildings);
 		badSampleLocation.setBuildings(badBuildings);
 		// instantiate buildings
@@ -120,7 +120,7 @@ public class LocationServiceTests {
 		otherGoodRooms.add(goodRoom4);
 		
 		List<Room> badRooms = new ArrayList<Room>();
-		List<Room> otherBadRooms = new ArrayList();
+		List<Room> otherBadRooms = new ArrayList<Room>();
 		badBuilding.setRooms(badRooms);
 		otherBadBuilding.setRooms(otherBadRooms);
 		Room badRoom = new Room();
@@ -224,7 +224,7 @@ public class LocationServiceTests {
 		Location loc = new Location();
 		assertNotNull(loc);
 		assertNotNull(loc.getBuildings());
-		assertionEquals(loc.getBuildings(), Building.class,"what is received from the list of buildings is not a building object list");
+		asser  tionEquals(loc.getBuildings(), Building.class,"what is received from the list of buildings is not a building object list");
 	}
 
 	@Test
