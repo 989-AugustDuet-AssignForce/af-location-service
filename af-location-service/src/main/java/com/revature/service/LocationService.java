@@ -3,12 +3,14 @@ package com.revature.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.revature.dto.BuildingDto;
 import com.revature.dto.LocationDto;
 import com.revature.repository.BuildingRepository;
 import com.revature.repository.LocationRepository;
 
+@Service
 public class LocationService {
 	
 	@Autowired
