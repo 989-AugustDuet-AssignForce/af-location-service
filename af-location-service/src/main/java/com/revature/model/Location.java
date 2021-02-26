@@ -29,6 +29,7 @@ public class Location {
     @OneToMany
     private List<Building> buildings;
 
+
 	public Location() {
 		super();
 		// TODO Auto-generated constructor stub
