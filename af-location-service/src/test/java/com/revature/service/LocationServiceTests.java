@@ -220,12 +220,12 @@ public class LocationServiceTests {
 		Location testLocation = new Location();
 		Building testBuilding = new Building();
 		testBuilding.setCity("Miami");
-		testBuilding.setId(23);
+		testBuilding.setBuildingId(23);
 		testBuilding.setLocation(testLocation);
 		testBuilding.setStreetAddress("Main Street");
 		Building testBuilding2 = new Building();
 		testBuilding2.setCity("Miami");
-		testBuilding2.setId(24);
+		testBuilding2.setBuildingId(24);
 		testBuilding2.setLocation(testLocation);
 		testBuilding2.setStreetAddress("Main Street");
 		assertNotNull(buildingList);
