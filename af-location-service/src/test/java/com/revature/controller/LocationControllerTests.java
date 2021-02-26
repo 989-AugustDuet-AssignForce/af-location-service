@@ -9,6 +9,5 @@ public class LocationControllerTests {
 	
 	@Test
 	public void checkGetBuildingsAtLocationController() {
-		ResponseEntity<List<Buildings>>
 	}
 }
