@@ -8,16 +8,16 @@ create table location(
 create table room(
 	room_id serial primary key,
 	name text, 
-	type int references room_type,
+	type int not null references room_type,
 	capacity int,
-	building int references to building(building_id) on delete cascade
-	
+	building_id int not null references building(building_id) on delete cascade;
+);
 
 create table building(
 	building_id serial primary key, 
 	city text, 
 	street_address text,
-	location int references location(location_id)
+	location_id int not null references location(location_id) on delete cascade; 
 );
 
 create table room_type(
