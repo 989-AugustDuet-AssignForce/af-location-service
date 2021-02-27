@@ -1,8 +1,10 @@
+
 create table location(
 	location_id serial primary key, 
 	state text, 
 	city text,
-	zipcode text
+	zipcode text,
+	building_id int not null references building(building_id) on delete cascade;
 );
 
 create table room(

@@ -1,3 +1,4 @@
+
 --Location inserts
 insert into "LOCATION" (location_id,state,city,zipcode)
 VALUES(1,'VA','Reston','20190');
