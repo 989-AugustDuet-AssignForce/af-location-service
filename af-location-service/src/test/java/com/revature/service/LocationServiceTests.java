@@ -208,49 +208,101 @@ public class LocationServiceTests {
 	public void checkWeCanGetAllLocations() {
 		List<LocationDto> locations = locationService.getAllLocations();
 		assertNotNull(locations);
-		assertTrue(locations.size() == 5);
+		assertTrue(locations.size() == 3);
 	}
 
 	@Test
 	public void checkWeCanGetLocationsByState() {
-		boolean result = true;
-		String state = "Virginia";
-		List<LocationDto> locations = locationService.getLocationsByState(state);
-		for (LocationDto ld : locations) {
-			if (!ld.state.equals(state)) {
-				result = false;
+		boolean result1 = false;
+		boolean result2 = false;
+
+		String[] stateInputs1 = {"VA", "TX", "FL"};
+		String[] stateInputs2 = {"Virginia", "Texas", "Florida"};
+
+		for( String s : stateInputs1 ) {
+			List<LocationDto> l = locationService.getLocationsByState(s);
+			if( l.get(0).state.equals(s) ) {
+				result1 = true;
+			} else if( l.get(1).state.equals(s) ) {
+				result1 = true;
+			} else if ( l.get(2).state.equals(s) ) {
+				result1 = true;
 			}
 		}
-		assertTrue(result);
+		assertTrue(result1);
+
+		for( String s : stateInputs2 ) {
+			List<LocationDto> l = locationService.getLocationsByState(s);
+			if( l.get(0).state.equals(s) ) {
+				result2 = true;
+			} else if( l.get(1).state.equals(s) ) {
+				result2 = true;
+			} else if ( l.get(2).state.equals(s) ) {
+				result2 = true;
+			}
+		}
+		assertTrue(result2);
 	}
 
 	@Test
 	public void checkWeCanGetLocationsByCity() {
-		boolean result = true;
-		String city = "Reston";
-		List<LocationDto> locations = locationService.getLocationsByCity(city);
-		for (LocationDto ld : locations) {
-			if (!ld.city.equals(city)) {
-				result = false;
+		boolean result = false;
+		String[] cityInputs = {"Reston", "Arlington", "Tampa"};
+
+		for( String c : cityInputs ) {
+			List<LocationDto> l = locationService.getLocationsByCity(c);
+			if( l.get(0).city.equals(c) ) {
+				result = true;
+			} else if( l.get(1).city.equals(c) ) {
+				result = true;
+			} else if ( l.get(2).city.equals(c) ) {
+				result = true;
 			}
 		}
+
 		assertTrue(result);
 	}
 
 	@Test
 	public void checkWeCanGetLocationsByZipcode() {
+		boolean result = false;
+		String[] zipCodeInputs = {"20190", "33620", "76019"};
+
+		for( String z : zipCodeInputs ) {
+			List<LocationDto> l = locationService.getLocationsByZipCode(z);
+			if( l.get(0).zipCode.equals(z) ) {
+				result = true;
+			} else if( l.get(1).zipCode.equals(z) ) {
+				result = true;
+			} else if ( l.get(2).zipCode.equals(z) ) {
+				result = true;
+			}
+		}
+
+		assertTrue(result);
+	}
+
+	@Test
+	public void checkWeCanGetLocationById() {
 		boolean result = true;
-		String zipcode = "20190";
-		List<LocationDto> locations = locationService.getLocationsByZipCode(zipcode);
-		for (LocationDto ld : locations) {
-			if (!ld.zipCode.equals(zipcode)) {
+		int[] idInputs = {1,2,3};
+
+		for( int i : idInputs ) {
+			LocationDto l = locationService.getLocation(i);
+			if( l.buildings.isEmpty() ) {
+				result = false;
+			} else if( l.zipCode.isEmpty() ) {
+				result = false;
+			} else if ( l.city.isEmpty() ) {
+				result = false;
+			} else if ( l.state.isEmpty() ) {
 				result = false;
 			}
 		}
+
 		assertTrue(result);
 	}
-	
-	
+
 	@Test 
 	public void updateLocationGood(){
 		final Location goodSampleCopy = cloneLocation( goodSampleLocation );
