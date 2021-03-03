@@ -44,7 +44,7 @@ public class LocationServiceTests {
 		badSampleLocation = new Location();
 		goodSampleLocation.setCity("Miami");
 		badSampleLocation.setCity("Austin");
-		goodSampleLocation.setLocationId(3);;
+		goodSampleLocation.setLocationId(3);
 		badSampleLocation.setLocationId(2);
 		goodSampleLocation.setState("FL");
 		badSampleLocation.setState("CA");
