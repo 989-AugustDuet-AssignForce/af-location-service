@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class RoomDto {
+public class LocationRequestDto {
 
-	private int id;
-	private String type;
-	private String occupation;
+    private String state;
+    private String city;
+    private String zipCode;
 
 }

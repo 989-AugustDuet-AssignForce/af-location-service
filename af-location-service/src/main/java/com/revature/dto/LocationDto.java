@@ -1,13 +1,17 @@
 package com.revature.dto;
 
-import java.util.List;
+import lombok.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class LocationDto {
-	
-	public int id;
-	public String state;
-	public String city;
-	public String zipCode;
-	public List<BuildingDto> buildings;
+
+    private int id;
+    private String state;
+    private String city;
+    private String zipCode;
+    private int numBuildings;
 
 }

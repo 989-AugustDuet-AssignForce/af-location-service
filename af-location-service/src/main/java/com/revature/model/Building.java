@@ -6,78 +6,33 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@NoArgsConstructor
+@Data
+@AllArgsConstructor
 public class Building {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="building_id")
-    private int buildingId;
-	
-    private String city;
-    
-    @Column(name = "street_address")
-    private String streetAddress;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Location location;
-    
-    @OneToMany
-    private List<Room> rooms;
-    
-    public Building() {
-    	
-    }
-    
-	public Building(int buildingId, String city, String streetAddress, Location location, List<Room> rooms) {
-		super();
-		this.buildingId = buildingId;
-		this.city = city;
-		this.streetAddress = streetAddress;
-		this.location = location;
-		this.rooms = rooms;
-	}
+	private int buildingId;
 
-	public int getBuildingId() {
-		return buildingId;
-	}
+	private String city;
 
-	public void setBuildingId(int buildingId) {
-		this.buildingId = buildingId;
-	}
+	@Column(name = "street_address")
+	private String streetAddress;
 
-	public String getCity() {
-		return city;
-	}
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Location location;
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+	@OneToMany
+	private List<Room> rooms;
 
-	public String getStreetAddress() {
-		return streetAddress;
-	}
-
-	public void setStreetAddress(String streetAddress) {
-		this.streetAddress = streetAddress;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public List<Room> getRooms() {
-		return rooms;
-	}
-
-	public void setRooms(List<Room> rooms) {
-		this.rooms = rooms;
-	}
 
 	@Override
 	public int hashCode() {
@@ -130,9 +85,5 @@ public class Building {
 		return "Building [buildingId=" + buildingId + ", city=" + city + ", streetAddress=" + streetAddress
 				+ ", location=" + location + ", rooms=" + rooms + "]";
 	}
-
-	
-    
-    
-    
+  
 }

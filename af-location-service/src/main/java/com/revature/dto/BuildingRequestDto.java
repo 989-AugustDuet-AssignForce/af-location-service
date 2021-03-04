@@ -9,10 +9,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RoomDto {
+public class BuildingRequestDto {
 
-	private int id;
-	private String type;
-	private String occupation;
+    private String city;
+    private String street_address;
+    private String zipCode;
+    private int totalFloors;
 
 }

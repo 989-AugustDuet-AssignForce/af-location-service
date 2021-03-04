@@ -1,12 +1,19 @@
 package com.revature.dto;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class BuildingDto {
-	
-	public int id;
-	public String city;
-	public String streetAddress;
-	public List<RoomDto> rooms;
+
+	private int id;
+	private String street_address;
+	private int totalFloors;
+	private int numFloor;
 
 }

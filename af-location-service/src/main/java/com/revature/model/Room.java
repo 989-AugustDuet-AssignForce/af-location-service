@@ -1,5 +1,7 @@
 package com.revature.model;
 
+
+import javax.persistence.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,93 +9,47 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.revature.statics.RoomOccupation;
 import com.revature.statics.RoomType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Room {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="room_id")
-    private int roomId;
-	
-    private String name;
-    
-    private RoomType type;
-    
-    private RoomOccupation occupation;
-    
-    private int capacity;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Building building;
+	private int roomId;
 
-	public Room() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
-	public Room(int id, String name, RoomType type, RoomOccupation occupation, int capacity, Building building) {
-		super();
-		this.roomId = id;
-		this.name = name;
-		this.type = type;
-		this.occupation = occupation;
-		this.capacity = capacity;
-		this.building = building;
-	}
+	private String name;
 
-	public int getRoomId() {
-		return roomId;
-	}
 
-	public void setRoomId(int roomId) {
-		this.roomId = roomId;
-	}
+	private RoomType type;
 
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	private RoomOccupation occupation;
 
-	public RoomType getType() {
-		return type;
-	}
 
-	public void setType(RoomType type) {
-		this.type = type;
-	}
+	private int capacity;
 
-	public RoomOccupation getOccupation() {
-		return occupation;
-	}
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Building building;
 
-	public void setOccupation(RoomOccupation occupation) {
-		this.occupation = occupation;
-	}
+	@ElementCollection
+	private Set<String> amenities;
 
-	public int getCapacity() {
-		return capacity;
-	}
+	private int floorNumber;
 
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-
-	public Building getBuilding() {
-		return building;
-	}
-
-	public void setBuilding(Building building) {
-		this.building = building;
-	}
 
 	@Override
 	public int hashCode() {
@@ -105,6 +61,8 @@ public class Room {
 		result = prime * result + ((occupation == null) ? 0 : occupation.hashCode());
 		result = prime * result + roomId;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((amenities == null) ? 0: amenities.hashCode());
+		result = prime * result + floorNumber;
 		return result;
 	}
 
@@ -135,6 +93,10 @@ public class Room {
 			return false;
 		if (type != other.type)
 			return false;
+		if(!amenities.equals(other.amenities))
+			return false;
+		if(floorNumber != other.floorNumber)
+			return false;
 		return true;
 	}
 
@@ -144,9 +106,10 @@ public class Room {
 				+ ", capacity=" + capacity + ", building=" + building + "]";
 	}
 
-
-	
-    
-    
-
+	@Override
+	public String toString() {
+		return "Room [roomId=" + roomId + ", name=" + name + ", type=" + type + ", occupation=" + occupation
+				+ ", capacity=" + capacity + ", building=" + building +  "amenities=" + amenities.toString()
+				+ "floorNumber=" + floorNumber + "]";
+	}
 }
