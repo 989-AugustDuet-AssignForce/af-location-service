@@ -11,6 +11,7 @@ import com.revature.service.LocationService;
 @RequestMapping("location")
 @CrossOrigin
 public class LocationController {
+	
 	private LocationService ls;
 
 	@Autowired

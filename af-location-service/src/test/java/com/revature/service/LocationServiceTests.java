@@ -343,7 +343,7 @@ public class LocationServiceTests {
 			}
 		} );
 		Exception exception = assertThrows( Exception.class, () ->{
-			locationService.updateLocation( badSampleCopy.getId(), badSampleCopy );
+			locationService.updateLocation( badSampleCopy.getLocationId(), badSampleCopy );
 		} );
 		assertTrue( "didn't throw exception", "bad entity".contains( exception.getMessage() ) );
 	}
@@ -353,9 +353,9 @@ public class LocationServiceTests {
 		Location goodSampleCopy = cloneLocation( goodSampleLocation );	
 		//TODO check validation
 		Mockito.when( locationRepository.save( goodSampleCopy )).thenReturn( goodSampleCopy );
-		Mockito.when( locationRepository.findById( goodSampleCopy.getId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
-		locationService.updateState( goodSampleCopy.getId(), "wuzz" );
-		LocationDto result = locationService.getLocation(goodSampleCopy.getId());
+		Mockito.when( locationRepository.findById( goodSampleCopy.getLocationId() ) ).thenReturn( ( Optional.of( goodSampleCopy ) ) );
+		locationService.updateState( goodSampleCopy.getLocationId(), "wuzz" );
+		LocationDto result = locationService.getLocation(goodSampleCopy.getLocationId());
 		assertTrue( "state not persisted", "wuzz".equals( result.state ) );
 	}
 	@Test
