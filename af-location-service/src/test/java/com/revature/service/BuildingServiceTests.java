@@ -19,6 +19,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.revature.dto.BuildingDetailsDto;
 import com.revature.dto.BuildingDto;
@@ -41,10 +42,14 @@ public class BuildingServiceTests {
 	
 	@Autowired
 	BuildingService buildingService;
-	LocationService locationRepository = Mockito.mock( LocationService.class );
-	RoomService roomService = Mockito.mock( RoomService.class );
-	BuildingRepository buildingRepository = Mockito.mock( BuildingRepository.class );
-	RoomRepository roomRepository = Mockito.mock( RoomRepository.class);
+	@MockBean
+	LocationService locationRepository;
+	@MockBean
+	RoomService roomService;
+	@MockBean
+	BuildingRepository buildingRepository;
+	@MockBean
+	RoomRepository roomRepository;
 	public static Location goodSampleLocation;
 	public static Location badSampleLocation;
 	public static Building goodBuilding;
