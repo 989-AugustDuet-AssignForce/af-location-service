@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.revature.dto.LocationDetailsDto;
-import com.revature.repository.BuildingRepository;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,9 +18,7 @@ import org.mockito.stubbing.Answer;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.revature.dto.BuildingDto;
 import com.revature.dto.LocationDto;
-import com.revature.dto.RoomDto;
 import com.revature.model.Building;
 import com.revature.model.Location;
 import com.revature.model.Room;
@@ -52,8 +49,8 @@ public class LocationServiceTests {
 		goodSampleLocation.setState("FL");
 		badSampleLocation.setState("CA");
 		//instantiate building list
-		List<Building> goodBuildings = new ArrayList();
-		List<Building> badBuildings = new ArrayList();
+		List<Building> goodBuildings = new ArrayList<Building>();
+		List<Building> badBuildings = new ArrayList<Building>();
 		goodSampleLocation.setBuildings(goodBuildings);
 		badSampleLocation.setBuildings(badBuildings);
 		// instantiate buildings
@@ -274,5 +271,6 @@ public class LocationServiceTests {
 		}
 		assertTrue(result);
 	}
-
+	
+	
 }

@@ -32,6 +32,10 @@ public class Building {
 
 	@OneToMany
 	private List<Room> rooms;
+	
+	@Column(name = "total_floors")
+	private int totalFloors;
+	private
 
 
 	@Override
@@ -85,4 +89,7 @@ public class Building {
 		return "Building [buildingId=" + id + ", city=" + city + ", streetAddress=" + streetAddress
 				+ ", location=" + location + ", rooms=" + rooms + "]";
 	}
+
+	
+	
 }

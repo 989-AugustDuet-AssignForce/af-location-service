@@ -100,4 +100,7 @@ public class Room {
 				+ ", capacity=" + capacity + ", building=" + building +  "amenities=" + amenities.toString()
 				+ "floorNumber=" + floorNumber + "]";
 	}
+
+	
+	
 }
