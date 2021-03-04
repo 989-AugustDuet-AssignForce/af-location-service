@@ -6,5 +6,7 @@ import com.revature.dto.RoomDto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomService {
+public interface RoomService {
+
+
 }

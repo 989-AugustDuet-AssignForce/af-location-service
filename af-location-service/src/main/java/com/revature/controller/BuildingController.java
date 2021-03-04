@@ -5,17 +5,18 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.service.RoomService;
+import com.revature.service.BuildingService;
 
 @RestController
-@RequestMapping("room")
+@RequestMapping("building")
 @CrossOrigin
-public class RoomController {
+public class BuildingController {
 
-	private RoomService rs;
+	private BuildingService bs;
 
 	@Autowired
-	public RoomController(RoomService rs) {
-		this.rs = rs;
+	public BuildingController(BuildingService bs) {
+		this.bs = bs;
 	}
+
 }

@@ -224,5 +224,18 @@ public class LocationControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}")).andExpect(status().isUnauthorized());
     }
+  
+    	@Test
+	public void checkGetBuildingsAtLocationControllerValid() throws Exception {
+		this.mockMvc.perform(get("/locations").contentType(MediaType.APPLICATION_JSON).content("{}"))
+				.andExpect(status().isOk());
 
+	}
+
+	@Test
+	public void checkGetBuildingsAtLocationConrtollerInvalid() throws Exception {
+		this.mockMvc.perform(get("/locations").contentType(MediaType.APPLICATION_JSON).content("{}"))
+				.andExpect(status().isUnauthorized());
+	}
+  
 }

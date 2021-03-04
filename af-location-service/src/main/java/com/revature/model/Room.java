@@ -1,7 +1,14 @@
 package com.revature.model;
 
-import javax.persistence.*;
 
+import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.revature.statics.RoomOccupation;
 import com.revature.statics.RoomType;
@@ -16,13 +23,12 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "rooms")
 public class Room {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="room_id")
-	private int id;
+	private int roomId;
 
 
 	private String name;
@@ -53,7 +59,7 @@ public class Room {
 		result = prime * result + capacity;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((occupation == null) ? 0 : occupation.hashCode());
-		result = prime * result + id;
+		result = prime * result + roomId;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((amenities == null) ? 0: amenities.hashCode());
 		result = prime * result + floorNumber;
@@ -83,7 +89,7 @@ public class Room {
 			return false;
 		if (occupation != other.occupation)
 			return false;
-		if (id != other.id)
+		if (roomId != other.roomId)
 			return false;
 		if (type != other.type)
 			return false;
@@ -96,7 +102,13 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return "Room [roomId=" + id + ", name=" + name + ", type=" + type + ", occupation=" + occupation
+		return "Room [roomId=" + roomId + ", name=" + name + ", type=" + type + ", occupation=" + occupation
+				+ ", capacity=" + capacity + ", building=" + building + "]";
+	}
+
+	@Override
+	public String toString() {
+		return "Room [roomId=" + roomId + ", name=" + name + ", type=" + type + ", occupation=" + occupation
 				+ ", capacity=" + capacity + ", building=" + building +  "amenities=" + amenities.toString()
 				+ "floorNumber=" + floorNumber + "]";
 	}

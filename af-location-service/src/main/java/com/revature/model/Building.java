@@ -5,13 +5,13 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "buildings")
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
@@ -20,7 +20,7 @@ public class Building {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="building_id")
-	private int id;
+	private int buildingId;
 
 	private String city;
 
@@ -38,7 +38,7 @@ public class Building {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + buildingId;
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((rooms == null) ? 0 : rooms.hashCode());
@@ -55,7 +55,7 @@ public class Building {
 		if (getClass() != obj.getClass())
 			return false;
 		Building other = (Building) obj;
-		if (id != other.id)
+		if (buildingId != other.buildingId)
 			return false;
 		if (city == null) {
 			if (other.city != null)
@@ -82,7 +82,8 @@ public class Building {
 
 	@Override
 	public String toString() {
-		return "Building [buildingId=" + id + ", city=" + city + ", streetAddress=" + streetAddress
+		return "Building [buildingId=" + buildingId + ", city=" + city + ", streetAddress=" + streetAddress
 				+ ", location=" + location + ", rooms=" + rooms + "]";
 	}
+  
 }
