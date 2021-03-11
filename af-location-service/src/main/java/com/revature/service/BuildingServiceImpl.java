@@ -26,7 +26,7 @@ public class BuildingServiceImpl implements BuildingService{
 		List<Building> buildings = br.findAllBuildingsByLocationId(id);
 		return buildings.stream().map(building -> {
 			BuildingDto buildingDto = new BuildingDto();
-			buildingDto.setId(building.getBuildingId());
+			buildingDto.setBuildingId(building.getBuildingId());
 			buildingDto.setStreet_address(building.getStreetAddress());
 			buildingDto.setNumRooms(building.getRooms().size());
 			buildingDto.setTotalFloors(building.getTotalFloors());

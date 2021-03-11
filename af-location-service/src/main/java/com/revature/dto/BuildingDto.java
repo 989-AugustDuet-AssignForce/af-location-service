@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class BuildingDto {
 
-	private int id;
+	private int buildingId;
 	private String street_address;
 	private int totalFloors;
 	private int numRooms;
