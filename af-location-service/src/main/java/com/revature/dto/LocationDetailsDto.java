@@ -1,6 +1,7 @@
 package com.revature.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LocationDetailsDto {
 
@@ -73,6 +74,18 @@ public class LocationDetailsDto {
         this.buildings = buildings;
     }
 
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass () != o.getClass () ) return false;
+        LocationDetailsDto that = (LocationDetailsDto) o;
+        return getId () == that.getId () && Objects.equals ( getState (), that.getState () ) && Objects.equals ( getCity (), that.getCity () ) && Objects.equals ( getZipCode (), that.getZipCode () ) && Objects.equals ( getBuildings (), that.getBuildings () );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash ( getId (), getState (), getCity (), getZipCode (), getBuildings () );
+    }
     public LocationDetailsDto(int id, String state, String city, String zipCode, List<BuildingDto> buildings) {
 
         this.id = id;

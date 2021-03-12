@@ -1,5 +1,8 @@
 package com.revature.dto;
 
+
+import java.util.Objects;
+
 public class BuildingDto {
 
 	private int id;

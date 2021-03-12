@@ -1,10 +1,19 @@
 package com.revature.service;
 
+import com.revature.repository.BuildingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+import com.revature.dto.BuildingRequestDto;
+import com.revature.model.Building;
+import com.revature.model.Location;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+import com.revature.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +27,7 @@ import com.revature.model.Room;
 import com.revature.model.Location;
 
 import com.revature.repository.BuildingRepository;
+import com.revature.repository.LocationRepository;
 
 
 
@@ -25,13 +35,21 @@ import com.revature.repository.BuildingRepository;
 public class BuildingServiceImpl implements BuildingService{
 
 	private BuildingRepository buildingRepository;
+	private LocationRepository locationRepository;
 	
 	@Autowired
-	public BuildingServiceImpl(BuildingRepository repository) {
+	public BuildingServiceImpl(BuildingRepository repository, LocationRepository locationRepository) {
 
-		this.buildingRepository= repository;
+		this.locationRepository =locationRepository;
+		
 
-  }
+	@Autowired
+	public BuildingServiceImpl( BuildingRepository bd) {
+		this.buildingRepository = bd;
+	}
+	@Autowired
+	private LocationRepository locationRepository;
+	
 
 
 
@@ -51,8 +69,8 @@ public class BuildingServiceImpl implements BuildingService{
 	}
 
 	@Override
-	public void createBuilding(BuildingRequestDto buildingRequestDto, Location location) {
-
+	public void createBuilding(BuildingRequestDto buildingRequestDto, int index) {
+		Location location = locationRepository.findById(index).get();
 		Building building = new Building();
 		building.setStreetAddress(buildingRequestDto.getStreet_address());
 		building.setCity(buildingRequestDto.getCity());
@@ -157,7 +175,31 @@ public class BuildingServiceImpl implements BuildingService{
 		//TODO update zip code borked, doesn't propagate properly without location repository
 		buildingRepository.save( entity );
 	}
-
+	@Override
+	public void deleteBuilding(int buildingIndex, int locationIndex) throws Exception{
+		Optional<Location> location = locationRepository.findById(locationIndex);
+		System.out.println(location.isPresent());
+		if(!location.isPresent()) {
+			throw new Exception("Location not found");
+		}
+		final boolean[] flag = {false};
+		final Location entity = location.get();
+		final List<Building> buildings = entity.getBuildings();
+		buildings.stream().filter( building->{
+			if(building.getBuildingId() == buildingIndex) {
+				buildings.remove(building);
+				flag[0] = true;
+				return true;
+				
+			}
+			return false;
+		}).findFirst();
+		if(flag[0]) {
+			locationRepository.save(entity);
+		}else {
+			throw new Exception("Building not found");
+		}
+	}
 	//utility functions
 	
 	private static BuildingDto getBuildingDtoFromEntity(Building building) {

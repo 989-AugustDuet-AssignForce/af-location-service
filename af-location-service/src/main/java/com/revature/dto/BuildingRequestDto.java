@@ -1,5 +1,7 @@
 package com.revature.dto;
 
+import java.util.Objects;
+
 public class BuildingRequestDto {
 
 
@@ -50,6 +52,17 @@ public class BuildingRequestDto {
     private int totalFloors;
 
     @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass () != o.getClass () ) return false;
+        BuildingRequestDto that = (BuildingRequestDto) o;
+        return getTotalFloors () == that.getTotalFloors () && Objects.equals ( getCity (), that.getCity () ) && Objects.equals ( getStreet_address (), that.getStreet_address () ) && Objects.equals ( getZipCode (), that.getZipCode () );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash ( getCity (), getStreet_address (), getZipCode (), getTotalFloors () );
+    }
     public String toString() {
 
         return "BuildingRequestDto{" +

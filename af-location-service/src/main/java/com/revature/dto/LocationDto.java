@@ -1,5 +1,7 @@
 package com.revature.dto;
 
+import java.util.Objects;
+
 public class LocationDto {
 
     private int id;

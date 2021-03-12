@@ -1,7 +1,12 @@
 package com.revature.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
+import com.revature.Exception.NotFoundException;
+import com.revature.dto.RoomDetailsDto;
+import com.revature.dto.RoomDto;
+import com.revature.dto.RoomRequestDto;
+import com.revature.model.Building;
+import com.revature.model.Room;
+import com.revature.repository.BuildingRepository;
 import com.revature.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 

@@ -51,8 +51,7 @@ public class BuildingServiceTests {
 		//instantiate service
 		buildingRepository = Mockito.mock(BuildingRepository.class);
 		locationRepository = Mockito.mock(LocationRepository.class);
-		buildingService = new BuildingServiceImpl(buildingRepository);
-		
+		buildingService = new BuildingServiceImpl(buildingRepository,locationRepository);
 		
 		//instantiate location
 		goodSampleLocation = new Location();
