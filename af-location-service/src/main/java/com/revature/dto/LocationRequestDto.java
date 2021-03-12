@@ -1,5 +1,7 @@
 package com.revature.dto;
 
+import java.util.Objects;
+
 public class LocationRequestDto {
 
     private String state;
@@ -44,6 +46,19 @@ public class LocationRequestDto {
     public void setZipCode(String zipCode) {
 
         this.zipCode = zipCode;
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass () != o.getClass () ) return false;
+        LocationRequestDto that = (LocationRequestDto) o;
+        return Objects.equals ( getState (), that.getState () ) && Objects.equals ( getCity (), that.getCity () ) && Objects.equals ( getZipCode (), that.getZipCode () );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash ( getState (), getCity (), getZipCode () );
     }
 
     public LocationRequestDto(String state, String city, String zipCode) {

@@ -1,5 +1,7 @@
 package com.revature.dto;
 
+import java.util.Objects;
+
 public class RoomDto {
 
 	private int id;
@@ -55,6 +57,18 @@ public class RoomDto {
 		this.occupation = occupation;
 	}
 
+	@Override
+	public boolean equals( Object o ) {
+		if ( this == o ) return true;
+		if ( o == null || getClass () != o.getClass () ) return false;
+		RoomDto roomDto = (RoomDto) o;
+		return getId () == roomDto.getId () && Objects.equals ( getType (), roomDto.getType () ) && Objects.equals ( getOccupation (), roomDto.getOccupation () );
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash ( getId (), getType (), getOccupation () );
+	}
 
 	public RoomDto() {
 

@@ -1,7 +1,7 @@
 package com.revature.service;
 
 
- import com.revature.model.Room;
+
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import java.util.List;
 import com.revature.dto.BuildingDetailsDto;
 import com.revature.dto.BuildingDto;
 import com.revature.dto.BuildingRequestDto;
-import com.revature.model.Location;
 
 
 public interface BuildingService{

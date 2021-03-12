@@ -1,5 +1,13 @@
 package com.revature.service;
 
+import com.revature.repository.BuildingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+import com.revature.dto.BuildingRequestDto;
+import com.revature.model.Building;
+import com.revature.model.Location;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,15 +35,14 @@ public class BuildingServiceImpl implements BuildingService{
 
 	private BuildingRepository buildingRepository;
 
+
+	@Autowired
+	public BuildingServiceImpl( BuildingRepository bd) {
+		this.buildingRepository = bd;
+	}
 	@Autowired
 	private LocationRepository locationRepository;
 	
-	@Autowired
-	public BuildingServiceImpl(BuildingRepository repository) {
-
-		this.buildingRepository= repository;
-
-  }
 
 
 
