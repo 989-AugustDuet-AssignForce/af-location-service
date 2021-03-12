@@ -113,7 +113,7 @@ public class BuildingController {
 
 
 	@PostMapping("/buildings/locations/{id}/buildings")
-	public ResponseEntity<String> createBuildingForLocation(@PathVariable int id, @RequestBodyBuildingRequestDto buildingRequestDto) {
+	public ResponseEntity<String> createBuildingForLocation(@PathVariable int id, @RequestBody BuildingRequestDto buildingRequestDto) {
 
 		try {
 
@@ -132,7 +132,7 @@ public class BuildingController {
 				.body("{\"message\": \"+Building has been created and added for this location+\"}");
 
 	}
-	@DeleteMapping("/{buildingId}/{locationId}")
+	@DeleteMapping("/buildings/{buildingId}/{locationId}")
 	public ResponseEntity deleteBuilding(@PathVariable int buildingId, @PathVariable int locationId) throws Exception{
 		bs.deleteBuilding(buildingId, locationId);
 		return new ResponseEntity(HttpStatus.OK);

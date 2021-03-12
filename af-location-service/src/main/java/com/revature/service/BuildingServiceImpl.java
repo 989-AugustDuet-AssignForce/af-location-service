@@ -35,14 +35,14 @@ import com.revature.repository.LocationRepository;
 public class BuildingServiceImpl implements BuildingService{
 
 	private BuildingRepository buildingRepository;
-	
+	private LocationRepository locationRepository;
 
 	@Autowired
-	public BuildingServiceImpl( BuildingRepository bd) {
+	public BuildingServiceImpl( BuildingRepository bd, LocationRepository locationRepository) {
 		this.buildingRepository = bd;
+		this.locationRepository = locationRepository;
 	}
-	@Autowired
-	private LocationRepository locationRepository;
+	
 	
 
 
@@ -65,10 +65,7 @@ public class BuildingServiceImpl implements BuildingService{
 
 	@Override
 	public void createBuilding(BuildingRequestDto buildingRequestDto, int index) {
-<<<<<<< HEAD
-=======
 
->>>>>>> branch 'building-service' of https://github.com/989-AugustDuet-AssignForce/af-location-service.git
 		Location location = locationRepository.findById(index).get();
 		Building building = new Building();
 		building.setStreetAddress(buildingRequestDto.getStreet_address());
