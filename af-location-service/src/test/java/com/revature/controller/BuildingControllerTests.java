@@ -36,7 +36,7 @@ public class BuildingControllerTests {
 
     @Test
     public void checkGetBuildingsAtLocationControllerValid() throws Exception {
-        this.mockMvc.perform(get("/location/api/buildings/locations/{id}/buildings", "1")
+        this.mockMvc.perform(get("/api/buildings/locations/{id}/buildings", "1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -44,7 +44,7 @@ public class BuildingControllerTests {
 
     @Test
     public void checkGetBuildingsAtLocationControllerInvalid() throws Exception {
-        this.mockMvc.perform(get("/location/api/buildings/locations/{id}/buildings", "j")
+        this.mockMvc.perform(get("/api/buildings/locations/{id}/buildings", "j")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -52,7 +52,7 @@ public class BuildingControllerTests {
 	@Test
 	public void getAllBuildings() throws Exception {
 
-		mockMvc.perform(get("/location/api/buildings/")
+		mockMvc.perform(get("/api/buildings/")
 				.contentType(MediaType.APPLICATION_JSON).content("{}"))
 				.andExpect(status().isOk());
 
@@ -61,7 +61,7 @@ public class BuildingControllerTests {
 	@Test
 	public void getAllBuildingsNotFound() throws Exception{
 
-		mockMvc.perform(get("/location/api/building")
+		mockMvc.perform(get("/api/building")
 				.contentType(MediaType.APPLICATION_JSON).content("{}"))
 				.andExpect(status().isNotFound());
 
@@ -70,7 +70,7 @@ public class BuildingControllerTests {
 	@Test 
 	public void getBuildingsByCity() throws Exception {
 
-		mockMvc.perform(get("/location/api/buildings/city/{city}/"
+		mockMvc.perform(get("/api/buildings/city/{city}/"
 				,"Miami")
 				.contentType(MediaType.APPLICATION_JSON).content("{}"))
 				.andExpect(status().isOk());
@@ -80,7 +80,7 @@ public class BuildingControllerTests {
 	@Test
 	public void getBuildingsByCityBadRequest() throws Exception {
 
-		mockMvc.perform(get("/location/api/buildings/city/{city}/", "")
+		mockMvc.perform(get("/api/buildings/city/{city}/", "")
 				.contentType(MediaType.APPLICATION_JSON).content("{}"))
 				.andExpect(status().isBadRequest());
 
@@ -89,7 +89,7 @@ public class BuildingControllerTests {
 	@Test
 	public void getBuildingsByAddress() throws Exception {
 
-		mockMvc.perform(get("/location/api/buildings/street/{address}/", "Main%20Street")
+		mockMvc.perform(get("/api/buildings/street/{address}/", "Main%20Street")
 				.contentType(MediaType.APPLICATION_JSON).content("{}"))
 				.andExpect(status().isOk());
 
@@ -98,7 +98,7 @@ public class BuildingControllerTests {
 	@Test
 	public void getBuildingsByAddressBadRequest() throws Exception {
 
-		mockMvc.perform(get("/location/api/buildings/street/{address}/", "")
+		mockMvc.perform(get("/api/buildings/street/{address}/", "")
 				.contentType(MediaType.APPLICATION_JSON).content("{}"))
 				.andExpect(status().isBadRequest());
 
@@ -107,7 +107,7 @@ public class BuildingControllerTests {
 	@Test
 	public void getBuildingsById() throws Exception {
 
-		mockMvc.perform(get("/location/api/buildings/{id}/", "1")
+		mockMvc.perform(get("/api/buildings/{id}/", "1")
 				.contentType(MediaType.APPLICATION_JSON).content("{}"))
 				.andExpect(status().isOk());
 
@@ -116,7 +116,7 @@ public class BuildingControllerTests {
 	@Test
 	public void getBuildingsByIdBadRequest() throws Exception {
 
-		mockMvc.perform(get("/location/api/buildings/{id}/", "j")
+		mockMvc.perform(get("/api/buildings/{id}/", "j")
 				.contentType(MediaType.APPLICATION_JSON).content("{}"))
 				.andExpect(status().isBadRequest());
 
@@ -125,7 +125,7 @@ public class BuildingControllerTests {
 	@Test
 	public void updateBuildingCity() throws Exception {
 
-		mockMvc.perform(patch("/location/api/buildings/{id}/city/{city}/", "1","plano")
+		mockMvc.perform(patch("/api/buildings/{id}/city/{city}/", "1","plano")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 
@@ -134,7 +134,7 @@ public class BuildingControllerTests {
 	@Test
 	public void updateBuildingCityNotAllowed() throws Exception {
 
-		mockMvc.perform(patch("/location/api/buildings/{id}/city/{cityName}/","","Plano")
+		mockMvc.perform(patch("/api/buildings/{id}/city/{cityName}/","","Plano")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isMethodNotAllowed());
 
@@ -143,7 +143,7 @@ public class BuildingControllerTests {
 	@Test
 	public void updateNumberOfFloors() throws Exception {
 
-		mockMvc.perform(patch("/location/api/buildings/{id}/floors/{count}", "1","2")
+		mockMvc.perform(patch("/api/buildings/{id}/floors/{count}", "1","2")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 
@@ -152,7 +152,7 @@ public class BuildingControllerTests {
 	@Test
 	public void updateNumberOfFloorsIsBadRequest() throws Exception {
 
-		mockMvc.perform(patch("/location/api/buildings/{id}/floors/{count}", "j","2")
+		mockMvc.perform(patch("/api/buildings/{id}/floors/{count}", "j","2")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
 
@@ -199,7 +199,7 @@ public class BuildingControllerTests {
 	@Test
 	public void updateBuilding() throws Exception{
 
-		mockMvc.perform(patch("/location/api/buildings/{id}","1").contentType(MediaType.APPLICATION_JSON).
+		mockMvc.perform(patch("/api/buildings/{id}","1").contentType(MediaType.APPLICATION_JSON).
 				content("{\"city\":\"Miami\",\"street_address\":\"Main Street\", " +
 						"\"zipCode\": \"1234\", \"totalFloors\": 3}"))
 				.andExpect(status().isOk());
@@ -209,7 +209,7 @@ public class BuildingControllerTests {
 	@Test
 	public void updateBuildingBad() throws Exception{
 
-		mockMvc.perform(patch("/location/api/buildings/{id}","l").contentType(MediaType.APPLICATION_JSON).
+		mockMvc.perform(patch("/api/buildings/{id}","l").contentType(MediaType.APPLICATION_JSON).
 				content("{\"city\":\"Miami\",\"street_address\":\"Main Street\"," +
 						" \"zipCode\": \"1234\", \"totalFloors\": 3}"))
 				.andExpect(status().isBadRequest());
@@ -218,7 +218,7 @@ public class BuildingControllerTests {
 
 	@Test
 	public void shouldReturn200AddBuildingForLocation() throws Exception {
-		this.mockMvc.perform(post("/location/api/buildings/locations/{id}/buildings", "1")
+		this.mockMvc.perform(post("/api/buildings/locations/{id}/buildings", "1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"city\": \"Plano\",\"street_address\": \"Main Street\", " +
 						"\"zipCode\": \"75023\", \"totalFloors\": \"100\"}"))
@@ -227,7 +227,7 @@ public class BuildingControllerTests {
 
 	@Test
 	public void shouldReturn400BadRequestAddBuildingForLocation() throws Exception {
-		this.mockMvc.perform(post("/location/api/buildings/locations/{id}/buildings", "j")
+		this.mockMvc.perform(post("/api/buildings/locations/{id}/buildings", "j")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"city\": \"Plano\",\"street_address\": \"Main Street\", " +
 						"\"zipCode\": \"75023\", \"totalFloors\": \"100\"}"))
