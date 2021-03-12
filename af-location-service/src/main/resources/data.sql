@@ -1,13 +1,13 @@
 
 --Location inserts
-insert into "LOCATION" (state,city,zipCode)
-VALUES('VA','Reston','20190');
+insert into "LOCATION" (location_id,state,city,zip_code)
+VALUES(1,'VA','Reston','20190');
 
-insert into "LOCATION" (state,city,zipCode)
-VALUES('FL','Tampa','33620');
+insert into "LOCATION" (location_id,state,city,zip_code)
+VALUES(2,'FL','Tampa','33620');
 
-insert into "LOCATION" (state,city,zipCode)
-VALUES('TX','Arlington','76019');
+insert into "LOCATION" (location_id,state,city,zip_code)
+VALUES(3,'TX','Reston','20190');
 
 --Building Inserts
 insert into "BUILDING" (city,street_address, location_id, total_floors)
@@ -15,7 +15,7 @@ VALUES('Reston','11730 Plaza America Dr',1, 6),
 ('Tampa','4202 E Fowler Ave',2, 4),
 ('Tampa','USF Apple Dr',2, 7),
 ('Arlington','701 S Nedderman Dr',3, 3);
---
+
 ----Room Inserts
 insert into "ROOM" (name,type,occupation,capacity,building_id,floor_number)
 VALUES('201',0,0,30,1,0),

@@ -1,6 +1,9 @@
 package com.revature.dto;
 
+
+import java.util.Objects;
 import java.util.Set;
+
 
 public class RoomRequestDto {
 
@@ -10,6 +13,19 @@ public class RoomRequestDto {
     private int capacity;
     private int floorNumber;
     private Set<String> amenities;
+
+
+    public RoomRequestDto(String name, String type, String occupation,
+                          int capacity, int floorNumber, Set<String> amenities) {
+
+        this.name = name;
+        this.type = type;
+        this.occupation = occupation;
+        this.capacity = capacity;
+        this.floorNumber = floorNumber;
+        this.amenities = amenities;
+    }
+
 
     @Override
     public String toString() {
@@ -84,16 +100,19 @@ public class RoomRequestDto {
         this.amenities = amenities;
     }
 
-    public RoomRequestDto(String name, String type, String occupation,
-                          int capacity, int floorNumber, Set<String> amenities) {
-
-        this.name = name;
-        this.type = type;
-        this.occupation = occupation;
-        this.capacity = capacity;
-        this.floorNumber = floorNumber;
-        this.amenities = amenities;
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass () != o.getClass () ) return false;
+        RoomRequestDto that = (RoomRequestDto) o;
+        return getCapacity () == that.getCapacity () && getFloorNumber () == that.getFloorNumber () && Objects.equals ( getName (), that.getName () ) && Objects.equals ( getType (), that.getType () ) && Objects.equals ( getOccupation (), that.getOccupation () ) && Objects.equals ( getAmenities (), that.getAmenities () );
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash ( getName (), getType (), getOccupation (), getCapacity (), getFloorNumber (), getAmenities () );
+    }
+
 
     public RoomRequestDto() {
 

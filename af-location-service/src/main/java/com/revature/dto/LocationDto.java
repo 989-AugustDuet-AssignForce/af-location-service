@@ -1,5 +1,7 @@
 package com.revature.dto;
 
+import java.util.Objects;
+
 public class LocationDto {
 
     private int id;
@@ -79,6 +81,18 @@ public class LocationDto {
         this.numBuildings = numBuildings;
     }
 
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass () != o.getClass () ) return false;
+        LocationDto that = (LocationDto) o;
+        return getId () == that.getId () && getNumBuildings () == that.getNumBuildings () && Objects.equals ( getState (), that.getState () ) && Objects.equals ( getCity (), that.getCity () ) && Objects.equals ( getZipCode (), that.getZipCode () );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash ( getId (), getState (), getCity (), getZipCode (), getNumBuildings () );
+    }
 
     public LocationDto() {
 

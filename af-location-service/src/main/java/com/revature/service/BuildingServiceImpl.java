@@ -1,10 +1,19 @@
 package com.revature.service;
 
+import com.revature.repository.BuildingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+import com.revature.dto.BuildingRequestDto;
+import com.revature.model.Building;
+import com.revature.model.Location;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+import com.revature.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +34,15 @@ import com.revature.repository.BuildingRepository;
 public class BuildingServiceImpl implements BuildingService{
 
 	private BuildingRepository buildingRepository;
-	
+
+
 	@Autowired
-	public BuildingServiceImpl(BuildingRepository repository) {
-
-		this.buildingRepository= repository;
-
-  }
+	public BuildingServiceImpl( BuildingRepository bd) {
+		this.buildingRepository = bd;
+	}
+	@Autowired
+	private LocationRepository locationRepository;
+	
 
 
 
@@ -51,8 +62,9 @@ public class BuildingServiceImpl implements BuildingService{
 	}
 
 	@Override
-	public void createBuilding(BuildingRequestDto buildingRequestDto, Location location) {
+	public void createBuilding(BuildingRequestDto buildingRequestDto, int index) {
 
+		Location location = locationRepository.findById(index).get();
 		Building building = new Building();
 		building.setStreetAddress(buildingRequestDto.getStreet_address());
 		building.setCity(buildingRequestDto.getCity());
