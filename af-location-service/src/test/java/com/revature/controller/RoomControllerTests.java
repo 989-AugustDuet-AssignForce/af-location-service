@@ -391,7 +391,7 @@ public class RoomControllerTests {
     public void whenGettingRoomWithValidId_RequestedRoomDetailsDtoIsReturnedWithCode200() throws Exception {
 
 
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/room/1" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/room/1" );
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
 
         String mappedResult = result.getResponse ().getContentAsString ();
@@ -404,7 +404,7 @@ public class RoomControllerTests {
 
     @Test
     public void whenGettingRoomWithInvalidId_404IsReturned() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/room/500" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/room/500" );
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isNotFound () ).andReturn ();
         verify ( roomService, times ( 1 ) ).getRoom ( 500 );
         assertEquals ( 404, result.getResponse ().getStatus () );
@@ -414,7 +414,7 @@ public class RoomControllerTests {
     @Test
     public void whenGettingPhysicalMeetingRooms_AllPhysicalMeetingRoomsAreReturnedWithCode200() throws Exception {
 
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/physical/meeting" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/physical/meeting" );
 
 
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
@@ -433,7 +433,7 @@ public class RoomControllerTests {
 
     @Test
     public void whenGettingPhysicalTrainingRooms_AllPhysicalTrainingRoomsAreReturnedWithCode200() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/physical/training" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/physical/training" );
 
 
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
@@ -452,7 +452,7 @@ public class RoomControllerTests {
 
     @Test
     public void whenGettingRemoteRooms_AllRemoteRoomsAreReturnedWithCode200() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/remote" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/remote" );
 
 
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
@@ -472,7 +472,7 @@ public class RoomControllerTests {
     @Test
     public void whenGettingPhysicalRooms_AllPhysicalRoomsAreReturnedWithCode200() throws Exception {
 
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/physical" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/physical" );
 
 
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
@@ -491,7 +491,7 @@ public class RoomControllerTests {
 
     @Test
     public void whenGettingMeetingRooms_AllMeetingRoomsAreReturnedWithCode200() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/meeting" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/meeting" );
 
 
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
@@ -512,7 +512,7 @@ public class RoomControllerTests {
     @Test
     public void whenGettingAllRooms_AllRoomsAreReturnedWithCode200() throws Exception {
 
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms" );
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
 
         String mappedResult = result.getResponse ().getContentAsString ();
@@ -533,7 +533,7 @@ public class RoomControllerTests {
 
     @Test
     public void whenGettingRemoteTrainingRooms_AllRemoteTrainingRoomsAreReturnedWithCode200() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/remote/training" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/remote/training" );
 
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
 
@@ -554,7 +554,7 @@ public class RoomControllerTests {
 
     @Test
     public void whenGettingRemoteMeetingRooms_AllRemoteMeetingRoomsAreReturnedWithCode200() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/remote/meeting" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/remote/meeting" );
 
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
 
@@ -577,7 +577,7 @@ public class RoomControllerTests {
 
         String mappedRequestObject = writer.writeValueAsString ( roomRequestMapper ( physicalMeetingRoom1 ) );
 
-        RequestBuilder request = MockMvcRequestBuilders.post ( "/api/location/building/1/room" )
+        RequestBuilder request = MockMvcRequestBuilders.post ( "/api/buildings/1/room" )
                 .contentType ( APPLICATION_JSON )
                 .content ( mappedRequestObject )
                 .characterEncoding ( "utf-8" );
@@ -601,7 +601,7 @@ public class RoomControllerTests {
     @Test
     public void whenGettingRoomsByBuildingId_RoomsForThatBuildingAreReturnedWithCode200() throws Exception {
 
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/1" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/1" );
 
         MvcResult result = mockMvc.perform ( request ).andExpect ( status ().isOk () ).andReturn ();
 
@@ -619,7 +619,7 @@ public class RoomControllerTests {
 
     @Test
     public void whenGettingRoomsByInvalidBuildingId_ExceptionIsThrowAndResponseIsReturnedWithCode404() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/location/rooms/500" );
+        RequestBuilder request = MockMvcRequestBuilders.get ( "/api/rooms/500" );
 
         mockMvc.perform ( request ).andExpect ( status ().isNotFound () ).andReturn ();
         verify ( buildingRepository, times ( 1 ) ).existsById ( 500 );
@@ -630,7 +630,7 @@ public class RoomControllerTests {
     @Test
     public void whenDeletingRoomWithValidId_RoomIsDeletedCode204IsReturned() throws Exception {
 
-        RequestBuilder request = MockMvcRequestBuilders.delete ( "/api/location/room/1" );
+        RequestBuilder request = MockMvcRequestBuilders.delete ( "/api/room/1" );
 
         mockMvc.perform ( request ).andExpect ( status ().isNoContent () ).andReturn ();
         verify ( roomService, times ( 1 ) ).deleteRoom ( 1 );
@@ -639,7 +639,7 @@ public class RoomControllerTests {
 
     @Test
     public void whenDeletingRoomWithInvalidId_NotFoundErrorIsThrownAndCode404IsReturned() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.delete ( "/api/location/room/500" );
+        RequestBuilder request = MockMvcRequestBuilders.delete ( "/api/room/500" );
 
         mockMvc.perform ( request ).andExpect ( status ().isNotFound () ).andReturn ();
         verify ( roomService, times ( 1 ) ).deleteRoom ( 500 );
@@ -651,7 +651,7 @@ public class RoomControllerTests {
     public void whenUpdatingRoomWithValidId_RoomIsUpdatedAndCode204IsReturned() throws Exception {
         String mappedRequestObject = writer.writeValueAsString ( roomRequestMapper ( physicalMeetingRoom1WithId ) );
 
-        RequestBuilder request = MockMvcRequestBuilders.put ( "/api/location/room/1" )
+        RequestBuilder request = MockMvcRequestBuilders.put ( "/api/room/1" )
                 .contentType ( APPLICATION_JSON )
                 .content ( mappedRequestObject )
                 .characterEncoding ( "utf-8" );
@@ -667,7 +667,7 @@ public class RoomControllerTests {
 
         String mappedRequestObject = writer.writeValueAsString ( roomRequestMapper ( physicalMeetingRoom1WithId ) );
 
-        RequestBuilder request = MockMvcRequestBuilders.put ( "/api/location/room/500" )
+        RequestBuilder request = MockMvcRequestBuilders.put ( "/api/room/500" )
                 .contentType ( APPLICATION_JSON )
                 .content ( mappedRequestObject )
                 .characterEncoding ( "utf-8" );

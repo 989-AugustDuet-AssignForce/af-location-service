@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/location")
+@RequestMapping("/api")
 
 @CrossOrigin
 public class RoomController {
@@ -39,7 +39,7 @@ public class RoomController {
     }
 
 
-    @PostMapping(value = "/building/{buildingId}/room", produces = "application/json")
+    @PostMapping(value = "/buildings/{buildingId}/room", produces = "application/json")
     public ResponseEntity<Object> createRoom( @RequestBody RoomRequestDto requestDto, @PathVariable int buildingId ) {
         Room room = new Room ();
 
