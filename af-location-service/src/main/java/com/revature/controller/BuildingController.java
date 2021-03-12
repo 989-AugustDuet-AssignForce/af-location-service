@@ -1,55 +1,32 @@
 package com.revature.controller;
 
-import com.revature.dto.BuildingDto;
-import com.revature.dto.LocationDetailsDto;
-import com.revature.model.Location;
-import com.revature.repository.LocationRepository;
-import com.revature.repository.RoomRepository;
-import com.revature.service.BuildingServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import com.revature.dto.BuildingDetailsDto;
 import com.revature.dto.BuildingDto;
+import com.revature.dto.BuildingDetailsDto;
 import com.revature.dto.BuildingRequestDto;
-import com.revature.dto.RoomRequestDto;
-import com.revature.model.Room;
 import com.revature.service.BuildingService;
-import com.revature.statics.RoomOccupation;
-import com.revature.statics.RoomType;
+
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("buildings")
+@RequestMapping("/location/api")
 @CrossOrigin
 public class BuildingController {
 
-	private BuildingService bs;
-	private LocationRepository locationRepository;
-
-
 	@Autowired
-	public BuildingController(BuildingService bs, LocationRepository locationRepository, RoomRepository roomRepository) {
+	private BuildingService bs;
 
-		this.locationRepository = locationRepository;
-		this.bs=bs;
 
-	}
 	
-	@GetMapping(path="/{buildingId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path="/buildings/{buildingId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BuildingDetailsDto> getBuilding(@PathVariable int buildingId) throws Exception {
 
 		BuildingDetailsDto dto = bs.getBuilding(buildingId);
@@ -57,7 +34,7 @@ public class BuildingController {
 
 	}
 
-	@GetMapping(path="", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path="/buildings", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<BuildingDto>> getBuildings() {
 
 		List<BuildingDto> list = bs.getBuildings();
@@ -65,7 +42,7 @@ public class BuildingController {
 
 	}
 
-	@GetMapping(path="/city/{cityName}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path="/buildings/city/{cityName}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<BuildingDto>> getBuildingByCity(@PathVariable String cityName) {
 
 		List<BuildingDto> list= bs.getBuildingsByCity(cityName);
@@ -73,7 +50,7 @@ public class BuildingController {
 
 	}
 
-	@GetMapping(path="/street/{streetAddress}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path="/buildings/street/{streetAddress}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<BuildingDto>> getBuildingByStreetAddress(@PathVariable String streetAddress) {
 
 		List<BuildingDto> list= bs.getBuildingsByStreetAddress(streetAddress);
@@ -81,7 +58,7 @@ public class BuildingController {
 
 	}
 
-	@PatchMapping(path="{buildingId}/city/{cityName}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PatchMapping(path="/buildings/{buildingId}/city/{cityName}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity updateBuildingCity(@PathVariable int buildingId, @PathVariable String cityName) throws Exception {
 
 		bs.updateCity(buildingId, cityName);
@@ -89,7 +66,7 @@ public class BuildingController {
 
 	}
 
-	@PatchMapping(path="/{buildingId}/floors/{floorCount}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PatchMapping(path="/buildings/{buildingId}/floors/{floorCount}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity updateNumberOfFloors(@PathVariable int buildingId, @PathVariable int floorCount) throws Exception {
 
 		bs.updateNumberOfFloors(buildingId, floorCount);
@@ -120,28 +97,27 @@ public class BuildingController {
 //		return new ResponseEntity(HttpStatus.OK);
 //	}
 
-	@PatchMapping(path="/{buildingId}")
+	@PatchMapping(path="/buildings/{buildingId}")
 	public ResponseEntity updateBuilding(@PathVariable int buildingId, @RequestBody BuildingRequestDto dto) throws Exception {
 
 		bs.updateBuilding(buildingId, dto);
 		return new ResponseEntity(HttpStatus.OK);
     
   }
-	@GetMapping("/locations/{id}/buildings")
+	@GetMapping("/buildings/locations/{id}/buildings")
 	public List<BuildingDto> getBuildingsByLocationId(@PathVariable int id) {
     
 		return bs.getBuildingsByLocation(id);
 
 	}
 
-	@PostMapping("/locations/{id}/buildings")
-	public ResponseEntity<String> createBuildingForLocation(@PathVariable int id, @RequestBody BuildingRequestDto buildingRequestDto) {
 
-		System.out.println(buildingRequestDto);
+	@PostMapping("/buildings/locations/{id}/buildings")
+	public ResponseEntity<String> createBuildingForLocation(@PathVariable int id, @RequestBodyBuildingRequestDto buildingRequestDto) {
+
 		try {
 
-			Location location = locationRepository.findById(id).get();
-			bs.createBuilding(buildingRequestDto, location);
+			bs.createBuilding(buildingRequestDto, id);
 
 		}
 		catch(Exception e) {

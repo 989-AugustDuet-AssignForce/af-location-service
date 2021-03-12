@@ -75,4 +75,16 @@ public class BuildingDto {
 
 	}
 
+	@Override
+	public boolean equals( Object o ) {
+		if ( this == o ) return true;
+		if ( o == null || getClass () != o.getClass () ) return false;
+		BuildingDto that = (BuildingDto) o;
+		return getId () == that.getId () && getTotalFloors () == that.getTotalFloors () && getNumRooms () == that.getNumRooms () && Objects.equals ( getStreet_address (), that.getStreet_address () );
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash ( getId (), getStreet_address (), getTotalFloors (), getNumRooms () );
+	}
 }

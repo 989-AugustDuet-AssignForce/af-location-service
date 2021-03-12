@@ -17,14 +17,17 @@ create table room(
 	name text, 
 	type int not null references room_type,
 	capacity int,
-	building_id int not null references building(building_id) on delete cascade;
+	building_id int not null references building(building_id) on delete cascade,
+	floor_number int;
 );
 
 create table building(
 	building_id serial primary key, 
 	city text, 
 	street_address text,
-	location_id int not null references location(location_id) on delete cascade;
+	location_id int not null references location(location_id) on delete cascade,
+	total_floors int;
+
 );
 
 create table room_type(

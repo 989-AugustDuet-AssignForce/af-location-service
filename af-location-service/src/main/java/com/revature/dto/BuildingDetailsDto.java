@@ -100,4 +100,16 @@ public class BuildingDetailsDto {
                 '}';
     }
 
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass () != o.getClass () ) return false;
+        BuildingDetailsDto that = (BuildingDetailsDto) o;
+        return getId () == that.getId () && getTotalFloors () == that.getTotalFloors () && Objects.equals ( getCity (), that.getCity () ) && Objects.equals ( getStreet_address (), that.getStreet_address () ) && Objects.equals ( getZipCode (), that.getZipCode () ) && Objects.equals ( getRooms (), that.getRooms () );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash ( getId (), getCity (), getStreet_address (), getZipCode (), getTotalFloors (), getRooms () );
+    }
 }

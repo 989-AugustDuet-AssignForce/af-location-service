@@ -27,4 +27,3 @@ public interface BuildingService{
     void createBuilding(BuildingRequestDto buildingRequestDto, int index);
     void deleteBuilding(int buildingIndex, int locationIndex) throws Exception;
 
-}

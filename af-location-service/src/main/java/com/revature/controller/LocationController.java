@@ -21,7 +21,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/location/api")
 @CrossOrigin
 public class LocationController {
 
