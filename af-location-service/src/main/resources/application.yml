@@ -53,7 +53,7 @@ spring:
       ddl-auto: update
 
 server:
-  port: 3306
+  port: 8080
   error:
     include-message: always
 
