@@ -41,7 +41,7 @@ spring:
     activate:
       on-profile: prod
   datasource:
-     url: 
+     url:
      driver-class-name: com.mysql.cj.jdbc.Driver
      name:
      username:
