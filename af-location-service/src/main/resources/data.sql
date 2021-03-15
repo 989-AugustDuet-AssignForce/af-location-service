@@ -7,7 +7,7 @@ insert into "LOCATION" (state,city,zip_code)
 VALUES('FL','Tampa','33620');
 
 insert into "LOCATION" (state,city,zip_code)
-VALUES('TX','Reston','20190');
+VALUES('TX','Arlington','76019');
 
 --Building Inserts
 insert into "BUILDING" (city,street_address, location_id, total_floors)
