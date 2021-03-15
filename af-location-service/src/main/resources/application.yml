@@ -41,7 +41,7 @@ spring:
     activate:
       on-profile: prod
   datasource:
-     url:
+     url: jdbc:mysql://assignforce-p3.cvtq9j4axrge.us-east-1.rds.amazonaws.com:3306/locations
      driver-class-name: com.mysql.cj.jdbc.Driver
      name:
      username: ${DB_USER}
