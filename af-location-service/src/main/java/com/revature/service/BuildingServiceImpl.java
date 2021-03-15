@@ -27,6 +27,7 @@ import com.revature.model.Room;
 import com.revature.model.Location;
 
 import com.revature.repository.BuildingRepository;
+import com.revature.repository.LocationRepository;
 
 
 
@@ -34,15 +35,16 @@ import com.revature.repository.BuildingRepository;
 public class BuildingServiceImpl implements BuildingService{
 
 	private BuildingRepository buildingRepository;
-
-
-	@Autowired
-	public BuildingServiceImpl( BuildingRepository bd) {
-		this.buildingRepository = bd;
-	}
-	@Autowired
 	private LocationRepository locationRepository;
+
+	@Autowired
+	public BuildingServiceImpl( BuildingRepository bd, LocationRepository locationRepository) {
+		this.buildingRepository = bd;
+		this.locationRepository = locationRepository;
+	}
 	
+	
+
 
 
 
@@ -169,7 +171,31 @@ public class BuildingServiceImpl implements BuildingService{
 		//TODO update zip code borked, doesn't propagate properly without location repository
 		buildingRepository.save( entity );
 	}
-
+	@Override
+	public void deleteBuilding(int buildingIndex, int locationIndex) throws Exception{
+		Optional<Location> location = locationRepository.findById(locationIndex);
+		System.out.println(location.isPresent());
+		if(!location.isPresent()) {
+			throw new Exception("Location not found");
+		}
+		final boolean[] flag = {false};
+		final Location entity = location.get();
+		final List<Building> buildings = entity.getBuildings();
+		buildings.stream().filter( building->{
+			if(building.getBuildingId() == buildingIndex) {
+				buildings.remove(building);
+				flag[0] = true;
+				return true;
+				
+			}
+			return false;
+		}).findFirst();
+		if(flag[0]) {
+			locationRepository.save(entity);
+		}else {
+			throw new Exception("Building not found");
+		}
+	}
 	//utility functions
 	
 	private static BuildingDto getBuildingDtoFromEntity(Building building) {
