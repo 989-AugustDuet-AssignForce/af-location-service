@@ -111,6 +111,11 @@ public class RoomController {
         return new ResponseEntity<> ( roomService.getMeetingRooms (), HttpStatus.OK );
     }
 
+    @GetMapping(value = "/rooms/training", produces = "application/json")
+    public ResponseEntity<Object> getTrainingRooms() {
+        return new ResponseEntity<> ( roomService.getTrainingRooms (), HttpStatus.OK );
+    }
+
     @DeleteMapping(value = "/room/{id}", produces = "application/json")
     public ResponseEntity<Object> deleteRoom( @PathVariable int id ) {
 

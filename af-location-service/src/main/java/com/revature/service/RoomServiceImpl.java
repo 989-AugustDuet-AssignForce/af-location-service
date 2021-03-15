@@ -190,7 +190,6 @@ public class RoomServiceImpl implements RoomService {
 
     }
 
-    // if doesn't exist throw not found exception.
 
 
     @Override
@@ -198,15 +197,12 @@ public class RoomServiceImpl implements RoomService {
         if ( roomRepository.existsById ( id ) ) {
             roomRepository.deleteById ( id );
         } else
-            throw new NotFoundException ( "Building with id " + id + " not found. Requested rooms not deliverable." );
+            throw new NotFoundException ( "Building with id " + id + " not found. Requested room not able to be deleted." );
     }
 
 
     @Override
     public void updateRoom( int id, RoomRequestDto roomRequestDto ) throws NotFoundException {
-        //can't set new building using request DTO
-        //could eventually null check fields for patch requests
-
         if ( roomRepository.existsById ( id ) ) {
             Room room = roomRepository.getOne ( id );
             room.setType ( RoomType.valueOf ( roomRequestDto.getType () ) );
@@ -217,7 +213,7 @@ public class RoomServiceImpl implements RoomService {
             room.setName ( roomRequestDto.getName () );
             roomRepository.save ( room );
         } else {
-            throw new NotFoundException ( "Room with id " + id + " not found. Requested changes not made." );
+            throw new NotFoundException ( "Room with id " + id + " not found. Requested update not made." );
         }
 
 

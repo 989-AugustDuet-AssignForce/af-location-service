@@ -10,6 +10,8 @@ public class RoomDetailsDto {
     private String type;
     private String occupation;
     private int capacity;
+    private int floorNumber;
+    private Set<String> amenities;
 
     @Override
     public String toString() {
@@ -25,8 +27,7 @@ public class RoomDetailsDto {
                 '}';
     }
 
-    private int floorNumber;
-    private Set<String> amenities;
+
 
     public int getId() {
 

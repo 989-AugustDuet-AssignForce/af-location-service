@@ -1,0 +1,20 @@
+#version: '3'
+#services:
+#  h2:
+#    image: "oscarfonts/h2"
+#    container_name: "h2"
+#    ports:
+#      - "5443:5443"
+#    volumes:
+#      - ../.docker_volume/h2/data:/var/lib/h2/data
+#    envioronment:
+#      H2_USER: sa
+#      H2_PASSWORD: password
+#      H2_DB: af-location-service
+#      H2_HOST_AUTH_METHOD: trust
+#  app:
+#    container_name: "af-location-service-api"
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL:
