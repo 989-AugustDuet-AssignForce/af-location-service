@@ -20,7 +20,5 @@ public interface LocationService {
 	public void updateCity(int index, String city);
 	public void updateZipCode(int index, String zipCode);
 	public void deleteLocation(int index);
-	public void addBuilding(int index, BuildingRequestDto buildingRequestDto);
 	public void updateLocation(int index, LocationRequestDto locationRequestDto);
-	public List<BuildingDto> findBuildingsByLocation(int id);
 }

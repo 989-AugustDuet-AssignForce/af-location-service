@@ -1,0 +1,50 @@
+name: Package and Image Build with Maven and Docker
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build Jar
+        run: mvn package -DskipTests -f $GITHUB_WORKSPACE/af-location-service/pom.xml
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secrets.ECR_PUBLISHER_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.ECR_PUBLISHER_SECRET_ACCESS_KEY_ID}}
+          aws-region: ${{secrets.ECR_REGION}}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, Tag, Push to ECR
+        env:
+          ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
+          ECR_REPOSITORY: ${{secrets.AF_LOCATION_ECR_REPO}}
+          IMAGE_TAG: ${{github.sha}}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $GITHUB_WORKSPACE/af-location-service/
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: EKS kubectl
+        uses: cancue/eks-action@v0.0.3 
+        env:
+          DEPLOYMENT_NAME: af-location
+          ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
+          ECR_REPOSITORY: ${{secrets.AF_LOCATION_ECR_REPO}}
+          IMAGE_TAG: ${{github.sha}}
+          aws_access_key_id: ${{ secrets.ECR_PUBLISHER_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.ECR_PUBLISHER_SECRET_ACCESS_KEY_ID }}
+          aws_region: ${{ secrets.ECR_REGION }}
+          cluster_name: ${{ secrets.EKS_ASSIGNFORCE_CLUSTER_NAME }}
+        with:
+          args: |
+            kubectl set image deployment/$DEPLOYMENT_NAME -n default $DEPLOYMENT_NAME=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG &&
+            kubectl rollout status deployment/$DEPLOYMENT_NAME -n default

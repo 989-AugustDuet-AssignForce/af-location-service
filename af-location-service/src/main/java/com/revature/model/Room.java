@@ -6,18 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.revature.statics.RoomOccupation;
 import com.revature.statics.RoomType;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Room {
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +45,106 @@ public class Room {
 	@Column(name = "floor_number")
 	@NotNull
 	private int floorNumber;
+
+	public int getRoomId() {
+
+		return roomId;
+	}
+
+	public void setRoomId(int roomId) {
+
+		this.roomId = roomId;
+	}
+
+	public String getName() {
+
+		return name;
+	}
+
+	public void setName(String name) {
+
+		this.name = name;
+	}
+
+	public RoomType getType() {
+
+		return type;
+	}
+
+	public void setType(RoomType type) {
+
+		this.type = type;
+	}
+
+	public RoomOccupation getOccupation() {
+
+		return occupation;
+	}
+
+	public void setOccupation(RoomOccupation occupation) {
+
+		this.occupation = occupation;
+	}
+
+	public int getCapacity() {
+
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+
+		this.capacity = capacity;
+	}
+
+	public Building getBuilding() {
+
+		return building;
+	}
+
+	public void setBuilding(Building building) {
+
+		this.building = building;
+	}
+
+	public Set<String> getRoomAmenities() {
+
+		return roomAmenities;
+	}
+
+	public void setRoomAmenities(Set<String> roomAmenities) {
+
+		this.roomAmenities = roomAmenities;
+	}
+
+	public int getFloorNumber() {
+
+		return floorNumber;
+	}
+
+	public void setFloorNumber(int floorNumber) {
+
+		this.floorNumber = floorNumber;
+	}
+
+	public Room() {
+
+	}
+
+
+	public Room(int roomId, String name, RoomType type, RoomOccupation occupation,
+				int capacity, Building building, Set<String> roomAmenities,
+				int floorNumber) {
+
+		this.roomId = roomId;
+		this.name = name;
+		this.type = type;
+		this.occupation = occupation;
+		this.capacity = capacity;
+		this.building = building;
+		this.roomAmenities = roomAmenities;
+		this.floorNumber = floorNumber;
+	}
+
 
 
 	@Override
@@ -101,6 +196,13 @@ public class Room {
 		return true;
 	}
 
+//	@Override
+//	public String toString() {
+//		return "Room [roomId=" + roomId + ", name=" + name + ", type=" + type + ", occupation=" + occupation
+//				+ ", capacity=" + capacity + ", building=" + building.getBuildingId() +  "roomAmenities=" + roomAmenities.toString()
+//				+ "floorNumber=" + floorNumber + "]";
+//	}
+
 	@Override
 	public String toString() {
 		return "Room [roomId=" + roomId + ", name=" + name + ", type=" + type + ", occupation=" + occupation
@@ -109,3 +211,4 @@ public class Room {
 	}
 
 }
+

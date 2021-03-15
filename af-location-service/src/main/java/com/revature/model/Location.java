@@ -1,20 +1,12 @@
 package com.revature.model;
 
 import java.util.List;
-
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Location {
 
 	@Id
@@ -28,12 +20,26 @@ public class Location {
 	@NotNull
 	private String city;
 
-	@Column(name = "zipcode")
+	@Column(name = "zip_code")
 	@NotNull
 	private String zipCode;
 
 	@OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Building> buildings;
+
+	public Location(int locationId, String state, String city,
+					String zipCode, List<Building> buildings) {
+
+		this.locationId = locationId;
+		this.state = state;
+		this.city = city;
+		this.zipCode = zipCode;
+		this.buildings = buildings;
+	}
+
+	public Location() {
+
+	}
 
 	@Override
 	public int hashCode() {
@@ -86,6 +92,56 @@ public class Location {
 		return "Location [locationId=" + locationId
 				+ ", state=" + state + ", city=" + city
 				+ ", zipCode=" + zipCode + ", buildings=" + buildings.size() + "]";
+	}
+
+	public int getLocationId() {
+
+		return locationId;
+	}
+
+	public void setLocationId(int locationId) {
+
+		this.locationId = locationId;
+	}
+
+	public String getState() {
+
+		return state;
+	}
+
+	public void setState(String state) {
+
+		this.state = state;
+	}
+
+	public String getCity() {
+
+		return city;
+	}
+
+	public void setCity(String city) {
+
+		this.city = city;
+	}
+
+	public String getZipCode() {
+
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+
+		this.zipCode = zipCode;
+	}
+
+	public List<Building> getBuildings() {
+
+		return buildings;
+	}
+
+	public void setBuildings(List<Building> buildings) {
+
+		this.buildings = buildings;
 	}
 
 }
