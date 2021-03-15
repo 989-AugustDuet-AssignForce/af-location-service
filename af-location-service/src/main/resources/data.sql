@@ -1,13 +1,13 @@
 
 --Location inserts
-insert into "LOCATION" (location_id,state,city,zip_code)
-VALUES(1,'VA','Reston','20190');
+insert into "LOCATION" (state,city,zip_code)
+VALUES('VA','Reston','20190');
 
-insert into "LOCATION" (location_id,state,city,zip_code)
-VALUES(2,'FL','Tampa','33620');
+insert into "LOCATION" (state,city,zip_code)
+VALUES('FL','Tampa','33620');
 
-insert into "LOCATION" (location_id,state,city,zip_code)
-VALUES(3,'TX','Reston','20190');
+insert into "LOCATION" (state,city,zip_code)
+VALUES('TX','Reston','20190');
 
 --Building Inserts
 insert into "BUILDING" (city,street_address, location_id, total_floors)

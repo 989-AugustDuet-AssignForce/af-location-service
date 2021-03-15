@@ -1,18 +1,67 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+---
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        trace: false
-        web-allow-others: false
+  config:
+    activate:
+      on-profile: dev
+
   datasource:
     url: jdbc:h2:mem:local-service-db;DB_CLOSE_ON_EXIT=FALSE
     driverClassName: org.h2.Driver
     username: sa
     password: 'password'
+
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    properties:
-      show-sql: true
-      use_sql_comments: true
+   show-sql: true
+   database-platform: org.hibernate.dialect.H2Dialect
+   hibernate:
+     ddl-auto: update
+
+  h2:
+   console:
+   enabled: true
+   path: /h2-console
+   settings:
+    trace: false
+    web-allow-others: false
+
+revature:
+  caliberUrl: https://caliber2-mock.revaturelabs.com:443/mock/training/
+  reservationServiceUrl: http://localhost:4200/api/reservations
+  frontendBaseUrl: http://localhost:8080
+  reservationServiceBaseUrl: http://localhost:4200
+
+name: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+     url:
+     driver-class-name: com.mysql.cj.jdbc.Driver
+     name:
+     username:
+     passowrd:
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 3306
+  error:
+    include-message: always
+
+revature:
+  caliberUrl: https://caliber2-mock.revaturelabs.com:443/mock/training/
+  reservationServiceUrl: http://af-location-svc:10001/api/reservations
+  frontendBaseUrl: http://a36454319e2484fb88088f5a9256d7e2-494854720.us-east-1.elb.amazonaws.com
+  reservationServiceBaseurl: http://af-location-svc:10001
+
+name: prod
+---
