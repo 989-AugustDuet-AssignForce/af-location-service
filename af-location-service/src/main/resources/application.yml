@@ -30,7 +30,7 @@ spring:
 
 revature:
   caliberUrl: https://caliber2-mock.revaturelabs.com:443/mock/training/
-  reservationServiceUrl: http://localhost:4200/api/reservations
+  reservationServiceUrl: http://localhost:4200/api/
   frontendBaseUrl: http://localhost:8080
   reservationServiceBaseUrl: http://localhost:4200
 
@@ -59,9 +59,9 @@ server:
 
 revature:
   caliberUrl: https://caliber2-mock.revaturelabs.com:443/mock/training/
-  reservationServiceUrl: http://af-location-svc:10001/api/reservations
+  reservationServiceUrl: http://af-reservation-svc:10000/api
   frontendBaseUrl: http://a36454319e2484fb88088f5a9256d7e2-494854720.us-east-1.elb.amazonaws.com
-  reservationServiceBaseurl: http://af-location-svc:10001
+  reservationServiceBaseurl: http://af-reservation-svc:10000
 
 name: prod
 ---
