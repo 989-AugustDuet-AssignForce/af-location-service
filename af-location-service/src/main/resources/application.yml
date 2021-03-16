@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   error:
     include-message: always
 ---
@@ -22,11 +22,11 @@ spring:
 
   h2:
    console:
-   enabled: true
-   path: /h2-console
-   settings:
-    trace: false
-    web-allow-others: false
+    enabled: true
+    path: /h2-console
+    settings:
+      trace: false
+      web-allow-others: false
 
 revature:
   caliberUrl: https://caliber2-mock.revaturelabs.com:443/mock/training/
