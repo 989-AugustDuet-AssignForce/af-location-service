@@ -46,7 +46,7 @@ public class LocationController {
 		}
 		return ResponseEntity.accepted()
 				.contentType(MediaType.APPLICATION_JSON)
-				.body("{\"message\": \"+Location created successfully+\"}");
+				.body("{\"message\": \"Location created successfully\"}");
 
 	}
 
@@ -73,7 +73,7 @@ public class LocationController {
 		}
 		return ResponseEntity.accepted()
 				.contentType(MediaType.APPLICATION_JSON)
-				.body("{\"message\": \"+Location's State has been updated successfully+\"}");
+				.body("{\"message\": \"Location's State has been updated successfully\"}");
 
 	}
 
@@ -93,7 +93,7 @@ public class LocationController {
 		}
 		return ResponseEntity.accepted()
 				.contentType(MediaType.APPLICATION_JSON)
-				.body("{\"message\": \"+Location's City has been updated successfully+\"}");
+				.body("{\"message\": \"Location's City has been updated successfully\"}");
 
 	}
 
@@ -112,7 +112,7 @@ public class LocationController {
 		}
 		return ResponseEntity.accepted()
 				.contentType(MediaType.APPLICATION_JSON)
-				.body("{\"message\": \"+Location's Zipcode has been updated successfully+\"}");
+				.body("{\"message\": \"Location's Zipcode has been updated successfully\"}");
 
 	}
 
@@ -133,7 +133,7 @@ public class LocationController {
 		}
 		return ResponseEntity.accepted()
 				.contentType(MediaType.APPLICATION_JSON)
-				.body("{\"message\": \"+Location has been deleted successfully+\"}");
+				.body("{\"message\": \"Location has been deleted successfully\"}");
 
 	}
 
@@ -152,7 +152,7 @@ public class LocationController {
 		}
 		return ResponseEntity.accepted()
 				.contentType(MediaType.APPLICATION_JSON)
-				.body("{\"message\": \"+Location has been updated successfully+\"}");
+				.body("{\"message\": \"Location has been updated successfully\"}");
 
 	}
 
